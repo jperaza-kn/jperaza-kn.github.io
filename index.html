@@ -1,8 +1,254 @@
 <!doctype html>
-<html>
-  <head><meta charset="utf-8"><title>My site</title></head>
-  <body>
-    <h1>Hello 👋</h1>
-    <p>This is my GitHub Pages site.</p>
-  </body>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Javier Peraza</title>
+
+  <link rel="preload" href="assets/fonts/texgyrepagella-regular-webfont.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+    <div class="topbar-title">Javier Peraza</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank" rel="noopener noreferrer">
+        CV
+      </a>
+      <a href="publications.html">Publications</a>
+      <a href="awards.html">Awards</a>
+      <a href="projects.html">Projects</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="students.html">Students</a>
+      <a href="resources.html">Resources</a>
+      <a href="events.html">Events</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <div class="grid-home">
+      <main class="main">
+        <section class="card header header-card">
+          <img class="avatar avatar-corner" src="assets/profile.jpeg" alt="Portrait" />
+          <div class="who">
+            <h1 class="name">Javier Peraza</h1>
+            <div class="meta">
+              <div>PhD</div>
+              <div>
+                <a href="https://perimeterinstitute.ca" target="_blank" rel="noopener">
+                  Perimeter Institute, Waterloo, Canada
+                </a>
+              </div>
+            </div>
+
+            <div class="icons" aria-label="Links">
+              <a class="iconlink"
+                href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view?usp=sharing"
+                aria-label="CV" data-tip="CV" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <path d="M14 2v6h6"></path>
+                  <path d="M8 13h8M8 17h8M8 9h3"></path>
+                </svg>
+              </a>
+
+              <a class="iconlink" href="mailto:jperaza@perimeterinstitute.ca" aria-label="Email" data-tip="Email">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M4 6h16v12H4z"></path>
+                  <path d="m4 7 8 6 8-6"></path>
+                </svg>
+              </a>
+
+              <a class="iconlink" href="https://orcid.org/0000-0002-0310-9082" target="_blank" rel="noopener"
+                aria-label="ORCID" data-tip="ORCID">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M12 2a10 10 0 1 0 0 20"></path>
+                  <path d="M10 8v8"></path>
+                  <path d="M14 8h2.5a3.5 3.5 0 0 1 0 7H14z"></path>
+                </svg>
+              </a>
+
+              <a class="iconlink" href="https://scholar.google.com/citations?user=DsoY_6MAAAAJ&hl" target="_blank"
+                rel="noopener" aria-label="Google Scholar" data-tip="Google Scholar">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M12 3 2 9l10 6 10-6-10-6Z"></path>
+                  <path d="M5 10v5c0 2 3 4 7 4s7-2 7-4v-5"></path>
+                </svg>
+              </a>
+
+              <a class="iconlink" href="https://github.com/jperaza-kn" target="_blank" rel="noopener"
+                aria-label="GitHub" data-tip="GitHub">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path
+                    d="M12 2a10 10 0 0 0-3 19c.5.1.7-.2.7-.5v-1.7c-3 .7-3.6-1.3-3.6-1.3-.5-1.1-1.2-1.4-1.2-1.4-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.7 1.9 2.9 1.3.1-.7.4-1.1.7-1.4-2.4-.3-4.9-1.2-4.9-5.3 0-1.2.4-2.1 1.1-2.9-.1-.3-.5-1.3.1-2.7 0 0 .9-.3 2.9 1.1.8-.2 1.7-.3 2.6-.3s1.8.1 2.6.3c2-1.4 2.9-1.1 2.9-1.1.6 1.4.2 2.4.1 2.7.7.8 1.1 1.7 1.1 2.9 0 4.1-2.5 5-4.9 5.3.4.3.7 1 .7 2v3c0 .3.2.6.7.5A10 10 0 0 0 12 2z">
+                  </path>
+                </svg>
+              </a>
+
+              <a class="iconlink" href="https://www.youtube.com/@jperazam" target="_blank" rel="noopener"
+                aria-label="YouTube" data-tip="YouTube">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path
+                    d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.8 4.6 12 4.6 12 4.6s-5.8 0-7.5.5A3 3 0 0 0 2.4 7.2 31 31 0 0 0 2 12a31 31 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.7.5 7.5.5 7.5.5s5.8 0 7.5-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22 12a31 31 0 0 0-.4-4.8Z">
+                  </path>
+                  <path d="M10 9.5v5l5-2.5-5-2.5Z"></path>
+                </svg>
+              </a>
+
+              <a class="iconlink" href="https://www.linkedin.com/in/javier-peraza/" target="_blank" rel="noopener"
+                aria-label="LinkedIn" data-tip="LinkedIn">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                  <path d="M4 4h4v16H4z"></path>
+                  <path d="M6 2.5a1.5 1.5 0 1 0 0 3"></path>
+                  <path d="M10 10h4v2a4 4 0 0 1 7 2v6h-4v-5a2 2 0 0 0-4 0v5h-4z"></path>
+                </svg>
+              </a>
+            </div>
+            <p class="bio">
+              I am a researcher and educator with training in both physics and mathematics, having completed two PhD
+              programs in these areas. My research interests include numerical methods, general relativity, field
+              theory,
+              probability, and geometric analysis, and I often work across domains where these tools intersect.
+
+              Alongside research, I have experience as a teaching assistant and adjunct professor. I am also an active
+              advocate for outreach and have worked for many years with students of different ages, helping them engage
+              with mathematics, physics, and science in general.
+
+              I welcome collaboration in multidisciplinary settings and contribute a versatile skill set in coding,
+              mathematics, physics, and analytical research.
+            </p>
+          </div>
+        </section>
+
+        <section class="card section">
+          <h2>Education</h2>
+
+          <div class="tree">
+            <div class="tree-group open">
+              <button class="tree-toggle" type="button" aria-expanded="true">
+                <span class="tree-icon" aria-hidden="true">−</span>
+                PhD
+              </button>
+              <div class="tree-children">
+                <div class="tree-leaf">
+                  <div class="leaf-main">PhD in Mathematics (Universidad de la República – PEDECIBA), 2018–2024</div>
+                  <div class="leaf-sub">
+                    <a href="https://hdl.handle.net/20.500.12008/43806" target="_blank" rel="noopener">
+                      <em>On periodic stationary and axisymmetric black hole configurations</em>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="tree-leaf">
+                  <div class="leaf-main">PhD in Physics (Universidad de la República – PEDECIBA), 2018–2022</div>
+                  <div class="leaf-sub">
+                    <a href="https://hdl.handle.net/20.500.12008/36201" target="_blank" rel="noopener">
+                      <em>Asymptotic symmetries and phase space extensions</em>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tree-group open" style="margin-top:8px;">
+              <button class="tree-toggle" type="button" aria-expanded="true">
+                <span class="tree-icon" aria-hidden="true">−</span>
+                MSc
+              </button>
+              <div class="tree-children">
+                <div class="tree-leaf">
+                  <div class="leaf-main">MSc in Physics (Universidad de la República – PEDECIBA), 2014–2017</div>
+                  <div class="leaf-sub">
+                    <a href="https://hdl.handle.net/20.500.12008/19400" target="_blank" rel="noopener">
+                      <em>Formulación canónica sobre hipersuperficies nulas para relatividad general con simetría
+                        cilíndrica (spanish)</em>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tree-group open" style="margin-top:8px;">
+              <button class="tree-toggle" type="button" aria-expanded="true">
+                <span class="tree-icon" aria-hidden="true">−</span>
+                BSc
+              </button>
+              <div class="tree-children">
+                <div class="tree-leaf">BSc in Physics (Physics track), 2011–2014</div>
+                <div class="tree-leaf">
+                  <div class="leaf-main">BSc in Mathematics, 2011–2015</div>
+                  <div class="leaf-sub">
+                    <a href="https://hdl.handle.net/20.500.12008/6390" target="_blank" rel="noopener">
+                      <em>Gravitación termodinámica : la ecuación de Einstein y la primera ley de la termodinámica
+                        (spanish)</em>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section tree-bullets">
+          <h2>Research</h2>
+          <div class="tree">
+            <div class="tree-group open">
+              <div class="tree-leaf">Postdoctoral Fellowship, Perimeter Institute, 2025–present</div>
+              <div class="tree-leaf">Lecturer, Math 203, Concordia University, Winter term 2025</div>
+              <div class="tree-leaf">Postdoctoral Fellowship, Concordia University, 2024–2025</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section">
+          <h2>Latest publications</h2>
+          <ul id="latestList"></ul>
+          <div style="margin-top:10px;">
+            <a href="publications.html">View all publications →</a>
+          </div>
+        </section>
+      </main>
+
+      <aside class="stats" aria-label="Stats">
+        <div class="statbox">
+          <div class="statlabel"># Collaborators</div>
+          <div class="statvalue" id="collabVal">—</div>
+        </div>
+
+        <div class="statbox">
+          <div class="statlabel">h-index</div>
+          <div class="statvalue" id="hindexVal">—</div>
+        </div>
+
+        <div class="chartcard">
+          <div class="charttitle">Papers per year</div>
+          <canvas class="chart" id="papersPerYear" width="260" height="140"></canvas>
+        </div>
+
+        <div class="chartcard">
+          <div class="charttitle">Citations by paper</div>
+          <canvas class="chart" id="citesHistogram" width="260" height="140"></canvas>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="assets/app.js"></script>
+</body>
+
 </html>

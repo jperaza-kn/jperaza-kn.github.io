@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Publications</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+</head>
+
+<body>
+    <header class="topbar">
+        <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+        <div class="topbar-title">Publications</div>
+        <div class="topbar-spacer"></div>
+    </header>
+
+    <div class="overlay" id="overlay" hidden></div>
+
+    <aside class="drawer" id="drawer" aria-label="Menu">
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+                rel="noopener noreferrer">
+                CV
+            </a>
+            <a href="publications.html">Publications</a>
+            <a href="awards.html">Awards</a>
+            <a href="projects.html">Projects</a>
+            <a href="teaching.html">Teaching</a>
+            <a href="students.html">Students</a>
+            <a href="resources.html">Resources</a>
+            <a href="events.html">Events</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </aside>
+
+    <div class="container">
+        <div class="grid-page">
+            <main class="main">
+                <section class="card section">
+                    <h2>Publications</h2>
+                    <input id="pubSearch" placeholder="Search by title / authors / venue…" />
+                    <div class="muted" style="margin-top:10px;" id="pubCount"></div>
+                    <ul id="pubList" style="margin-top:10px;"></ul>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="assets/app.js"></script>
+    <script>
+        async function loadJSON(path) {
+            const r = await fetch(path, { cache: "no-store" });
+            if (!r.ok) throw new Error(`Failed ${path}: ${r.status}`);
+            return r.json();
+        }
+        function norm(s) { return (s || "").toLowerCase(); }
+
+        function renderAll(listEl, items) {
+            listEl.innerHTML = "";
+            for (const p of items) {
+                const li = document.createElement("li");
+                li.className = "scholar-item";
+
+                const title = p.title || "Untitled";
+                const url = p.url || "";
+                const authors = p.authors || "";
+                const venue = p.venue || "";
+                const year = p.year ? String(p.year) : "";
+                const cited = Number(p.cited_by_count || 0);
+
+                li.innerHTML = `
+          <div class="sch-title">
+            ${url ? `<a href="${url}" target="_blank" rel="noopener">${title}</a>` : title}
+          </div>
+          <div class="sch-authors">${authors}</div>
+          <div class="sch-meta">
+            ${venue}${venue && year ? " · " : ""}${year}
+            <span class="sch-cited">· Cited by ${cited.toLocaleString()}</span>
+          </div>
+        `;
+                listEl.appendChild(li);
+            }
+        }
+
+        (async () => {
+            const data = await loadJSON("data/publications.json");
+            let items = data.items || [];
+
+            items.sort((a, b) => {
+                const da = a.publication_date ? Date.parse(a.publication_date) : NaN;
+                const db = b.publication_date ? Date.parse(b.publication_date) : NaN;
+                if (!Number.isNaN(da) && !Number.isNaN(db)) return db - da;
+                return (b.year || 0) - (a.year || 0);
+            });
+
+            const listEl = document.getElementById("pubList");
+            const countEl = document.getElementById("pubCount");
+            const searchEl = document.getElementById("pubSearch");
+
+            function apply() {
+                const q = norm(searchEl.value).trim();
+                const filtered = !q ? items : items.filter(p =>
+                    norm(p.title).includes(q) ||
+                    norm(p.authors).includes(q) ||
+                    norm(p.venue).includes(q)
+                );
+                renderAll(listEl, filtered);
+                countEl.textContent = `${filtered.length} publications`;
+            }
+
+            searchEl.addEventListener("input", apply);
+            apply();
+        })().catch(err => {
+            console.error(err);
+            document.getElementById("pubList").innerHTML =
+                `<li class="scholar-item"><div class="sch-title">Failed to load publications</div><div class="sch-meta">${err.message}</div></li>`;
+        });
+    </script>
+</body>
+
+</html>

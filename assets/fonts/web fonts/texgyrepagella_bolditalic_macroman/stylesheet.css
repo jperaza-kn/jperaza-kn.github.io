@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'tex_gyre_pagellabold_italic';
+    src: url('texgyrepagella-bolditalic-webfont.eot');
+    src: url('texgyrepagella-bolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('texgyrepagella-bolditalic-webfont.woff2') format('woff2'),
+         url('texgyrepagella-bolditalic-webfont.woff') format('woff'),
+         url('texgyrepagella-bolditalic-webfont.ttf') format('truetype'),
+         url('texgyrepagella-bolditalic-webfont.svg#tex_gyre_pagellabold_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+

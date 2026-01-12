@@ -1,0 +1,560 @@
+/* ---------- Fonts (your exact filenames, .woff) ---------- */
+@font-face {
+  font-family: "TeX Gyre Pagella Web";
+  src: url("fonts/texgyrepagella-regular-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TeX Gyre Pagella Web";
+  src: url("fonts/texgyrepagella-italic-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TeX Gyre Pagella Web";
+  src: url("fonts/texgyrepagella-bold-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TeX Gyre Pagella Web";
+  src: url("fonts/texgyrepagella-bolditalic-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --bg: #0b0f17;
+  --panel: rgba(16, 24, 39, .70);
+  --border: #1f2a3a;
+  --text: #e8eef7;
+  --muted: #a7b4c6;
+  --accent: #74b3ff;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(1000px 700px at 20% 0%, #0f1b34 0%, var(--bg) 55%);
+  color: var(--text);
+  font-family: "TeX Gyre Pagella Web", "Palatino Linotype", Palatino, Georgia, serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  background: rgba(10, 14, 22, .72);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.topbar-title {
+  font-weight: 700;
+  letter-spacing: .2px;
+  opacity: .95;
+}
+
+.topbar-spacer {
+  flex: 1;
+}
+
+.iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(16, 24, 39, .55);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.iconbtn svg {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Drawer menu (hidden until hamburger click) ---------- */
+.overlay {
+  position: fixed;
+  inset: 56px 0 0 0;
+  background: rgba(0, 0, 0, .45);
+  z-index: 60;
+  display: none;
+}
+
+.drawer {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  height: calc(100vh - 56px);
+  width: min(280px, 88vw);
+  background: rgba(16, 24, 39, .92);
+  border-right: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  z-index: 70;
+  transform: translateX(-105%);
+  transition: transform .18s ease;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+body[data-nav-open="true"] .drawer {
+  transform: translateX(0);
+}
+
+body[data-nav-open="true"] .overlay {
+  display: block;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav a {
+  padding: 10px 10px;
+  border-radius: 12px;
+  color: var(--text);
+  opacity: .92;
+  border: 1px solid transparent;
+}
+
+.nav a:hover {
+  opacity: 1;
+  border-color: rgba(116, 179, 255, .25);
+  background: rgba(116, 179, 255, .08);
+}
+
+.nav a.active {
+  border-color: rgba(116, 179, 255, .35);
+  background: rgba(116, 179, 255, .14);
+  opacity: 1;
+}
+
+/* ---------- Page layout ---------- */
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px;
+}
+
+.grid-home {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 14px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .grid-home {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-page {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 14px;
+}
+
+
+/* Header card with avatar pinned top-left */
+.header-card {
+  position: relative;
+  padding-top: 18px;
+  padding-left: 128px;
+  /* space for the avatar on the left */
+}
+
+.avatar-corner {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  width: 92px;
+  height: 92px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 520px) {
+  .header-card {
+    padding-left: 16px;
+    padding-top: 16px;
+  }
+
+  .avatar-corner {
+    position: static;
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+.name {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.meta {
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.meta a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.meta a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.iconlink {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 24, 39, .55);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.iconlink:hover {
+  border-color: rgba(116, 179, 255, .35);
+  background: rgba(116, 179, 255, .10);
+}
+
+.iconlink svg {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* custom tooltip */
+.iconlink[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(16, 24, 39, .95);
+  border: 1px solid rgba(31, 42, 58, .9);
+  color: var(--text);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s ease;
+  z-index: 10;
+}
+
+.iconlink[data-tip]:hover::after {
+  opacity: 1;
+}
+
+.section h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.section p {
+  margin: 0;
+  color: var(--muted);
+}
+
+input {
+  background: rgba(12, 19, 32, .9);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  width: min(520px, 100%);
+  font-family: inherit;
+  font-size: 16px;
+}
+
+/* ---------- Stats column ---------- */
+.stats {
+  position: sticky;
+  top: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (max-width: 1100px) {
+  .stats {
+    position: static;
+  }
+}
+
+.statbox,
+.chartcard {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+}
+
+.statlabel {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.statvalue {
+  font-size: 24px;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+.charttitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.chart {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: rgba(8, 12, 18, .25);
+  border-radius: 12px;
+  border: 1px solid rgba(31, 42, 58, .7);
+}
+
+/* ---------- Scholar-like list (home + publications) ---------- */
+#latestList,
+#pubList {
+  margin: 0;
+  padding: 0;
+}
+
+.scholar-item {
+  padding: 10px 0;
+  border-top: 1px solid rgba(31, 42, 58, .7);
+  list-style: none;
+}
+
+.scholar-item:first-child {
+  border-top: none;
+}
+
+.sch-title {
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.sch-authors {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.sch-meta {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.sch-cited {
+  color: rgba(116, 179, 255, .95);
+}
+
+/* ---------- Tree / accordion ---------- */
+.tree {
+  margin-top: 10px;
+}
+
+.tree-group {
+  position: relative;
+  padding-left: 18px;
+}
+
+.tree-group::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(167, 180, 198, .35);
+}
+
+.tree-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.tree-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(167, 180, 198, .45);
+  border-radius: 6px;
+  background: rgba(16, 24, 39, .55);
+  color: var(--text);
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.tree-children {
+  margin-left: 12px;
+  padding-left: 12px;
+}
+
+.tree-children>.tree-leaf,
+.tree-children>.tree-group {
+  position: relative;
+  padding-left: 18px;
+}
+
+.tree-children>.tree-leaf::before,
+.tree-children>.tree-group::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(167, 180, 198, .25);
+}
+
+.tree-leaf {
+  padding: 6px 4px;
+  color: var(--muted);
+}
+
+.tree-group:not(.open)>.tree-children {
+  display: none;
+}
+
+.tree-bullets .tree-leaf {
+  position: relative;
+  padding-left: 18px;
+}
+
+.tree-bullets .tree-leaf::before {
+  content: "•";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  color: var(--muted);
+}
+
+/* Bullet marker for leaf items (works in Education too) */
+.tree-leaf {
+  position: relative;
+  padding-left: 18px;
+  /* space for bullet */
+}
+
+.tree-leaf::before {
+  content: "•";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  color: var(--muted);
+}
+
+/* Two-line leaf formatting */
+.leaf-main {
+  color: var(--muted);
+}
+
+.leaf-sub {
+  margin-top: 2px;
+  font-size: 14px;
+  opacity: 0.95;
+}
+
+.leaf-sub a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.leaf-sub a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}

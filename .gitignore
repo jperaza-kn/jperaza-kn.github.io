@@ -1,0 +1,32 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / frontend tooling
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# local secrets / env files
+.env
+.env.*
