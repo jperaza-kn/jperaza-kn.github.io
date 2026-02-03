@@ -558,3 +558,99 @@ input {
   color: var(--accent);
   text-decoration: underline;
 }
+
+/* ---------- Mathlets gallery ---------- */
+.mathlets-controls{
+  margin-top: 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.tagrow{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag{
+  border: 1px solid rgba(31, 42, 58, .9);
+  background: rgba(16, 24, 39, .55);
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+.tag.active{
+  color: var(--text);
+  border-color: rgba(116,179,255,.45);
+  background: rgba(116,179,255,.12);
+}
+
+.mathlets-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+@media (max-width: 1100px){
+  .mathlets-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 650px){
+  .mathlets-grid{ grid-template-columns: 1fr; }
+}
+
+.mathlet-card{
+  border: 1px solid rgba(31, 42, 58, .85);
+  background: rgba(16, 24, 39, .55);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 8px;
+}
+
+.mathlet-title{
+  font-weight: 800;
+  line-height: 1.2;
+}
+.mathlet-desc{
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.mathlet-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.pill{
+  font-size: 12px;
+  color: var(--muted);
+  border: 1px solid rgba(31, 42, 58, .7);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.mathlet-actions{
+  margin-top: 4px;
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btnlink{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 42, 58, .9);
+  background: rgba(12, 19, 32, .7);
+  color: var(--text);
+}
+.btnlink:hover{
+  border-color: rgba(116,179,255,.35);
+  background: rgba(116,179,255,.08);
+  text-decoration: none;
+}

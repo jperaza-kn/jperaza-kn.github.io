@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Isoclines</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./isoclines.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">Javier Peraza</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">
+        CV
+      </a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Isoclines and Slope Field : <em>y' = y³ − a y − x</em></h1>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section isoclines-mathlet">
+          <div id="plot"></div>
+          <!-- m -->
+          <div class="slider-row-dash">
+            <span class="slider-label">m =</span>
+            <span class="slider-value" id="mVal">0.200</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="m" class="dash-range" type="range" min="-3" max="3" step="0.05" value="0.2">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:16.666%"></span>
+                <span class="dash-tick" style="--p:33.333%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:66.666%"></span>
+                <span class="dash-tick" style="--p:83.333%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-3</span>
+                <span style="--p:16.666%">-2</span>
+                <span style="--p:33.333%">-1</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:66.666%">1</span>
+                <span style="--p:83.333%">2</span>
+                <span style="--p:100%">3</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">y′ = m</span>
+          </div>
+
+          <!-- a -->
+          <div class="slider-row-dash">
+            <span class="slider-label">a =</span>
+            <span class="slider-value" id="aVal">0.300</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="a" class="dash-range" type="range" min="-3" max="3" step="0.05" value="0.3">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:16.666%"></span>
+                <span class="dash-tick" style="--p:33.333%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:66.666%"></span>
+                <span class="dash-tick" style="--p:83.333%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-3</span>
+                <span style="--p:16.666%">-2</span>
+                <span style="--p:33.333%">-1</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:66.666%">1</span>
+                <span style="--p:83.333%">2</span>
+                <span style="--p:100%">3</span>
+              </div>
+            </div>
+
+            <span class="slider-caption"></span>
+          </div>
+
+          <div class="solutions" id="solutions"></div>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <h2>Isoclines</h2>
+          <p>
+            An <em>isocline</em> of a differential equation of the form
+          </p>
+          <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+            y′ = f(x, y)
+          </p>
+          <p>
+            is the set of points <em>(x, y)</em> in the plane where the slope satisfies
+          </p>
+          <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+            f(x, y) = m,
+          </p>
+          <p>
+            for some fixed value <em>m</em>.
+            Along an isocline, all solution curves have the same slope
+            (yellow curve on the left).
+          </p>
+
+          <p>
+            Isoclines help visualize and identify regions of growth, decay, or critical points.
+          </p>
+
+          <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+          <h2>Slope field</h2>
+
+          <p>
+            The <em>slope field</em> of
+          </p>
+
+          <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+            y′ = f(x, y)
+          </p>
+
+          <p>
+            is built by drawing, at each point <em>(x, y)</em>, a short segment whose inclination
+            equals the slope <em>f(x, y)</em>.
+          </p>
+
+          <p>
+            This field provides a visual representation of the local behavior of solutions
+            without solving the equation explicitly.
+          </p>
+
+          <p>
+            The numerical integral curves you add by clicking the plot follow the direction
+            indicated by these segments.
+          </p>
+
+          <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+          
+          <h2>How to use</h2>
+          <p>
+            Adjust <strong>a</strong> and <strong>m</strong>. The blue contour is the isocline where f(x,y)=m.
+            Click the plot to add a numerical solution curve. Use the ✖ buttons to remove curves.
+          </p>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. Load Pyodide helper FIRST -->
+  <!-- 2. Load mathlet logic SECOND -->
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./isoclines.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

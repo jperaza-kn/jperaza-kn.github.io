@@ -1,0 +1,13 @@
+{
+    "items": [
+        {
+            "title": "Isoclines Explorer",
+            "description": "Visualize isoclines and direction fields for first-order ODEs.",
+            "tags": [
+                "ODE",
+                "Direction fields"
+            ],
+            "url": "projects/edo-edp-mathlets/isoclines/isoclines.html"
+        }
+    ]
+}

@@ -49,10 +49,11 @@ function drawBars(canvas, values, labels = []) {
     if (!canvas) return;
 
     const dpr = Math.max(1, window.devicePixelRatio || 1);
-    const cssW = canvas.clientWidth || canvas.width;
+    const rect = canvas.getBoundingClientRect();
+    const cssW = Math.max(240, Math.floor(rect.width || canvas.parentElement?.clientWidth || 260));
     const cssH = Math.round((cssW / 260) * 140);
-    canvas.style.height = cssH + "px";
 
+    canvas.style.height = cssH + "px";
     canvas.width = Math.floor(cssW * dpr);
     canvas.height = Math.floor(cssH * dpr);
 
@@ -226,8 +227,14 @@ function drawGroupedBars(canvas, valuesA, valuesB, labels = [], legendA = "Citab
     if (!canvas) return;
 
     const dpr = Math.max(1, window.devicePixelRatio || 1);
-    const cssW = canvas.clientWidth || canvas.width;
-    const cssH = Math.round((cssW / 260) * 150);
+    const rect = canvas.getBoundingClientRect();
+    const cssW = Math.max(240, Math.floor(rect.width || canvas.parentElement?.clientWidth || 260));
+    const rotate = cssW < 420;
+    // base height + extra space if rotated labels
+    const baseH = Math.round((cssW / 260) * 150);
+    const cssH = Math.max(170, baseH + (rotate ? 55 : 0));
+    //const cssH = Math.round((cssW / 260) * 150);
+    canvas.style.height = cssH + "px";
     canvas.style.height = cssH + "px";
     canvas.width = Math.floor(cssW * dpr);
     canvas.height = Math.floor(cssH * dpr);
@@ -242,7 +249,8 @@ function drawGroupedBars(canvas, valuesA, valuesB, labels = [], legendA = "Citab
     const W = cssW, H = cssH;
     ctx.clearRect(0, 0, W, H);
 
-    const padL = 10, padR = 10, padT = 10, padB = 28;
+    const padL = 12, padR = 12, padT = 10;
+    const padB = rotate ? 60 : 30;
     const innerW = W - padL - padR;
     const innerH = H - padT - padB;
 
@@ -288,14 +296,32 @@ function drawGroupedBars(canvas, valuesA, valuesB, labels = [], legendA = "Citab
     ctx.fillStyle = text;
     ctx.font = "12px system-ui, -apple-system, Segoe UI, Roboto, Arial";
     ctx.textAlign = "center";
-    for (let i = 0; i < n; i++) {
+    const approxSlot = innerW / n;
+    const step = rotate && approxSlot < 34 ? 2 : 1;
+
+    const labelY = padT + innerH + 10;
+
+    for (let i = 0; i < n; i += step) {
         const x0 = padL + i * (groupW + groupGap);
         const cx = x0 + groupW / 2;
-        ctx.fillText(String(labels[i] ?? ""), cx, H - 8);
+
+        ctx.save();
+        ctx.translate(cx, labelY);
+
+        if (rotate) {
+            ctx.rotate(-Math.PI / 4);
+            ctx.textAlign = "right";
+            ctx.textBaseline = "top";
+            ctx.fillText(String(labels[i] ?? ""), 0, 0);
+        } else {
+            ctx.textAlign = "center";
+            ctx.textBaseline = "alphabetic";
+            ctx.fillText(String(labels[i] ?? ""), 0, 12);
+        }
+
+        ctx.restore();
     }
 }
-
-
 async function initHomeIfPresent() {
     const latestList = $("#latestList");
     const collabVal = $("#collabVal");
@@ -342,9 +368,93 @@ async function initHomeIfPresent() {
     });
 }
 
+async function initMathletsIfPresent() {
+  const grid = document.querySelector("#mathletsGrid");
+  if (!grid) return;
+
+  const search = document.querySelector("#mathletsSearch");
+  const tagsEl = document.querySelector("#mathletsTags");
+
+  let data = { items: [] };
+  try {
+    data = await loadJSON("data/mathlets.json");
+  } catch {}
+
+  const items = (data.items || []).map(x => ({
+    title: x.title || "Untitled",
+    description: x.description || "",
+    tags: Array.isArray(x.tags) ? x.tags : [],
+    url: x.url || x.href || "",     // supports either url or href
+    year: x.year || null
+  }));
+
+  const allTags = [...new Set(items.flatMap(i => i.tags))]
+    .sort((a, b) => a.localeCompare(b));
+
+  let activeTag = "";
+
+  function renderTags() {
+    tagsEl.innerHTML = "";
+    const makeBtn = (t, label) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "tag" + (activeTag === t ? " active" : "");
+      b.textContent = label;
+      b.addEventListener("click", () => {
+        activeTag = (activeTag === t ? "" : t);
+        renderTags();
+        renderGrid();
+      });
+      return b;
+    };
+
+    tagsEl.appendChild(makeBtn("", "All"));
+    allTags.forEach(t => tagsEl.appendChild(makeBtn(t, t)));
+  }
+
+  function renderGrid() {
+    const q = (search?.value || "").trim().toLowerCase();
+    grid.innerHTML = "";
+
+    const filtered = items.filter(it => {
+      const hitTag = !activeTag || it.tags.includes(activeTag);
+      const hitQ =
+        !q ||
+        it.title.toLowerCase().includes(q) ||
+        it.description.toLowerCase().includes(q) ||
+        it.tags.join(" ").toLowerCase().includes(q);
+      return hitTag && hitQ;
+    });
+
+    for (const it of filtered) {
+      const card = document.createElement("div");
+      card.className = "mathlet-card";
+
+      card.innerHTML = `
+        <div class="mathlet-title">${it.title}</div>
+        <div class="mathlet-desc">${it.description}</div>
+        <div class="mathlet-tags">
+          ${(it.tags || []).map(t => `<span class="pill">${t}</span>`).join("")}
+        </div>
+        <div class="mathlet-actions">
+          ${it.url ? `<a class="btnlink" href="${it.url}" target="_blank" rel="noopener">Open</a>` : ""}
+        </div>
+      `;
+
+      grid.appendChild(card);
+    }
+  }
+
+  search?.addEventListener("input", renderGrid);
+
+  renderTags();
+  renderGrid();
+}
+
 (function main() {
     setupMenu();
     markActiveNav();
     setupTreeToggles();
     initHomeIfPresent();
+    initMathletsIfPresent();
 })();
