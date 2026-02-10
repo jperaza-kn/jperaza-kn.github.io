@@ -2,16 +2,16 @@
   "items": [
     {
       "inspire_recid": 2968617,
-      "doi": null,
+      "doi": "10.1007/JHEP02(2026)087",
       "arxiv": "2509.08725",
-      "title": "Boundary Actions and Loop Groups: A Geometric Picture of Gauge Symmetries at Null Infinity",
+      "title": "Boundary actions and loop groups: A geometric picture of gauge symmetries at null infinity",
       "authors": "Nagy, Silvia, Peraza, Javier, Pizzolo, Giorgio",
-      "venue": "arXiv",
-      "year": 2025,
+      "venue": "JHEP",
+      "year": 2026,
       "publication_date": "2025-09-10",
-      "url": "https://arxiv.org/abs/2509.08725",
+      "url": "https://doi.org/10.1007/JHEP02(2026)087",
       "cited_by_count": 2,
-      "is_published": false,
+      "is_published": true,
       "is_citable": true
     },
     {
