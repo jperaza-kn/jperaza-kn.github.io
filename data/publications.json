@@ -1,6 +1,20 @@
 {
   "items": [
     {
+      "inspire_recid": 3123921,
+      "doi": null,
+      "arxiv": "2602.22501",
+      "title": "Periodic Analogs of Multiple Black Holes Solutions",
+      "authors": "Ortiz, Omar, Peraza, Javier",
+      "venue": "arXiv",
+      "year": 2026,
+      "publication_date": "2026-02-26",
+      "url": "https://arxiv.org/abs/2602.22501",
+      "cited_by_count": 0,
+      "is_published": false,
+      "is_citable": true
+    },
+    {
       "inspire_recid": 2968617,
       "doi": "10.1007/JHEP02(2026)087",
       "arxiv": "2509.08725",
@@ -24,7 +38,7 @@
       "year": 2025,
       "publication_date": "2025-05-08",
       "url": "https://doi.org/10.1103/mhb9-mhjt",
-      "cited_by_count": 0,
+      "cited_by_count": 1,
       "is_published": true,
       "is_citable": true
     },
@@ -38,7 +52,7 @@
       "year": 2025,
       "publication_date": "2024-07-23",
       "url": "https://doi.org/10.1088/1361-6382/adc360",
-      "cited_by_count": 3,
+      "cited_by_count": 4,
       "is_published": true,
       "is_citable": true
     },
@@ -80,7 +94,7 @@
       "year": 2023,
       "publication_date": "2023-04-05",
       "url": "https://inspirehep.net/literature/2806389",
-      "cited_by_count": 0,
+      "cited_by_count": 1,
       "is_published": false,
       "is_citable": true
     },
@@ -136,7 +150,7 @@
       "year": 2023,
       "publication_date": "2022-10-23",
       "url": "https://doi.org/10.1088/1361-6382/ace7a7",
-      "cited_by_count": 3,
+      "cited_by_count": 4,
       "is_published": true,
       "is_citable": true
     },
