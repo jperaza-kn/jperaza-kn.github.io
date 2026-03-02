@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fourier Series — Periodic x^2</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./fourier_x2.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>
+        Fourier Series of the 2-periodic extension of <em>\(x^2\)</em>
+      </h1>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section x2-mathlet">
+          <div id="plot"></div>
+
+          <!-- N slider -->
+          <div class="slider-row-dash">
+            <span class="slider-label">N =</span>
+            <span class="slider-value" id="NVal">3</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="N" class="dash-range" type="range" min="1" max="10" step="1" value="3">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:11.111%"></span>
+                <span class="dash-tick" style="--p:22.222%"></span>
+                <span class="dash-tick" style="--p:33.333%"></span>
+                <span class="dash-tick" style="--p:44.444%"></span>
+                <span class="dash-tick" style="--p:55.555%"></span>
+                <span class="dash-tick" style="--p:66.666%"></span>
+                <span class="dash-tick" style="--p:77.777%"></span>
+                <span class="dash-tick" style="--p:88.888%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">1</span>
+                <span style="--p:11.111%">2</span>
+                <span style="--p:22.222%">3</span>
+                <span style="--p:33.333%">4</span>
+                <span style="--p:44.444%">5</span>
+                <span style="--p:55.555%">6</span>
+                <span style="--p:66.666%">7</span>
+                <span style="--p:77.777%">8</span>
+                <span style="--p:88.888%">9</span>
+                <span style="--p:100%">10</span>
+              </div>
+            </div>
+
+            <span class="slider-caption"></span>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <!-- Spanish -->
+          <div id="text-es">
+            <h2>Serie de Fourier de la extensión 2-periódica de \(x^2\)</h2>
+
+            <p>
+              Definimos \(f(x)=x^2\) en el intervalo \([-1,1]\) y la extendemos periódicamente con período \(2\).
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              f(x+2)=f(x),\qquad f(x)=x^2 \text{ para } x\in[-1,1].
+              \]
+            </p>
+
+            <p>
+              Como \(f\) es par, su serie de Fourier contiene solo cosenos:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              f(x)\sim \frac{1}{3}+\sum_{n=1}^{\infty}\frac{4(-1)^n}{n^2\pi^2}\cos(n\pi x).
+              \]
+            </p>
+
+            <p>
+              <strong>Nota sobre el fenómeno de Gibbs:</strong> en esta función no hay salto en los extremos porque
+              \(f(-1)=f(1)=1\), así que no aparece el “Gibbs clásico” asociado a discontinuidades.
+              Sin embargo, la extensión periódica no es suave en \(x=\pm 1\) (las derivadas no coinciden),
+              y pueden observarse pequeñas oscilaciones cerca de esos puntos. Aun así, como \(f\) es continua,
+              la serie de Fourier converge a \(f(x)\) en todo punto; en particular, en \(x=\pm1\) converge a \(1\).
+            </p>
+
+            <ul style="margin:0; padding-left:18px;">
+              <li>La gráfica muestra \(f(x)\) (azul) y la suma parcial \(S_N(x)\) (naranja).</li>
+              <li>Ajusta \(N\) para ver cómo mejora la aproximación parcial.</li>
+            </ul>
+          </div>
+
+          <!-- English -->
+          <div id="text-en" style="display:none;">
+            <h2>Fourier series of the 2-periodic extension of \(x^2\)</h2>
+
+            <p>
+              Define \(f(x)=x^2\) on \([-1,1]\) and extend it periodically with period \(2\).
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              f(x+2)=f(x),\qquad f(x)=x^2 \text{ for } x\in[-1,1].
+              \]
+            </p>
+
+            <p>
+              Since \(f\) is even, its Fourier series has only cosines:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              f(x)\sim \frac{1}{3}+\sum_{n=1}^{\infty}\frac{4(-1)^n}{n^2\pi^2}\cos(n\pi x).
+              \]
+            </p>
+
+            <p>
+              <strong>Note on Gibbs's phenomenon:</strong> there is no jump at the endpoints because \(f(-1)=f(1)=1\),
+              so the “classic Gibbs overshoot” from a discontinuity does not occur. However, the periodic
+              extension is not smooth at \(x=\pm 1\) (the derivatives do not match), and you may still see
+              mild ringing near those points. Since \(f\) is continuous, the Fourier series converges to
+              \(f(x)\) at every point; in particular, at \(x=\pm1\) it converges to \(1\).
+            </p>
+
+            <ul style="margin:0; padding-left:18px;">
+              <li>The plot shows \(f(x)\) (blue) and the partial sum \(S_N(x)\) (orange).</li>
+              <li>Adjust \(N\) to see how the partial sum improves.</li>
+            </ul>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./fourier_x2.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

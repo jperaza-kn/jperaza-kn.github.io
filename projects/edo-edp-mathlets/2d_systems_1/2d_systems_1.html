@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lattice Flow — X' = A X</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./2d_systems_1.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>
+        2d Linear Systems
+      </h1>
+
+      <p style="text-align:center; font-size:1.5rem;">
+        <em>\(\dot{\mathbf X} = A\mathbf X,\quad A=\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix}\)</em>
+      </p>
+        
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section lattice-mathlet">
+          <div id="plot"></div>
+
+          <!-- Row 1 -->
+          <div class="slider-pair">
+            <!-- a11 -->
+            <div class="slider-row-dash slim">
+              <span class="slider-label">\(a_{11}\)=</span>
+              <span class="slider-value" id="a11Val">1.00</span>
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+                <input id="a11" class="dash-range" type="range" min="-3" max="3" step="0.1" value="1.0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-3</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">3</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <!-- a12 -->
+            <div class="slider-row-dash slim">
+              <span class="slider-label">\(a_{12}\)=</span>
+              <span class="slider-value" id="a12Val">0.00</span>
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+                <input id="a12" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0.0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-3</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">3</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="slider-pair">
+            <!-- a21 -->
+            <div class="slider-row-dash slim">
+              <span class="slider-label">\(a_{21}\)=</span>
+              <span class="slider-value" id="a21Val">0.00</span>
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+                <input id="a21" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0.0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-3</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">3</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <!-- a22 -->
+            <div class="slider-row-dash slim">
+              <span class="slider-label">\(a_{22}\)=</span>
+              <span class="slider-value" id="a22Val">-1.00</span>
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+                <input id="a22" class="dash-range" type="range" min="-3" max="3" step="0.1" value="-1.0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-3</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">3</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+          </div>
+
+          <!-- Row 3: density -->
+          <div class="slider-row-dash">
+            <span class="slider-label">R =</span>
+            <span class="slider-value" id="RVal">3</span>
+
+            <div class="slider-wrap wide">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="R" class="dash-range" type="range" min="1" max="5" step="1" value="3">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:25%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:75%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">1</span>
+                <span style="--p:25%">2</span>
+                <span style="--p:50%">3</span>
+                <span style="--p:75%">4</span>
+                <span style="--p:100%">5</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{density}\)</span>
+          </div>
+
+          <!-- Row 4: time -->
+          <div class="slider-row-dash">
+            <span class="slider-label">T =</span>
+            <span class="slider-value" id="TVal">6.00</span>
+
+            <div class="slider-wrap wide">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="T" class="dash-range" type="range" min="0.5" max="12" step="0.5" value="6.0">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0.5</span>
+                <span style="--p:50%">6</span>
+                <span style="--p:100%">12</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{time}\)</span>
+          </div>
+
+          <!-- optional error box -->
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <div id="classif"></div>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <div id="classif-en"></div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Pyodide helper FIRST -->
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+
+  <!-- Mathlet logic SECOND -->
+  <script src="./2d_systems_1.js"></script>
+
+  <!-- Your site app JS (drawer, etc.) -->
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

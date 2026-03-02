@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fourier Series — Sawtooth</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./fourier_saw.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>
+        Fourier Series of a \(2\pi\)-periodic sawtooth
+      </h1>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section fourier-mathlet">
+          <div id="plot"></div>
+
+          <!-- N slider -->
+          <div class="slider-row-dash">
+            <span class="slider-label">N =</span>
+            <span class="slider-value" id="NVal">3</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="N" class="dash-range" type="range" min="1" max="10" step="1" value="3">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:11.111%"></span>
+                <span class="dash-tick" style="--p:22.222%"></span>
+                <span class="dash-tick" style="--p:33.333%"></span>
+                <span class="dash-tick" style="--p:44.444%"></span>
+                <span class="dash-tick" style="--p:55.555%"></span>
+                <span class="dash-tick" style="--p:66.666%"></span>
+                <span class="dash-tick" style="--p:77.777%"></span>
+                <span class="dash-tick" style="--p:88.888%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">1</span>
+                <span style="--p:11.111%">2</span>
+                <span style="--p:22.222%">3</span>
+                <span style="--p:33.333%">4</span>
+                <span style="--p:44.444%">5</span>
+                <span style="--p:55.555%">6</span>
+                <span style="--p:66.666%">7</span>
+                <span style="--p:77.777%">8</span>
+                <span style="--p:88.888%">9</span>
+                <span style="--p:100%">10</span>
+              </div>
+            </div>
+
+            <span class="slider-caption"></span>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <!-- Spanish -->
+          <div id="text-es">
+            <h2>Serie de Fourier del diente de sierra \(2\pi\)-periódico</h2>
+
+            <p>Consideramos la función \(2\pi\)-periódica:</p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              f(x)=\frac{x\ (\text{mod }2\pi)}{2\pi}\in[0,1).
+              \]
+            </p>
+
+            <p>Su serie de Fourier es:</p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              f(x)\sim \frac{1}{2}-\frac{1}{\pi}\sum_{n=1}^{\infty}\frac{1}{n}\sin(nx).
+              \]
+            </p>
+
+            <ul style="margin: 0; padding-left: 18px;">
+              <li>En el punto de salto (múltiplos de \(2\pi\)), la serie converge al valor medio.</li>
+              <li>Aparecen oscilaciones de Gibbs cerca de la discontinuidad.</li>
+              <li>La gráfica muestra \(f(x)\) (azul) y la \(N\)-ésima suma parcial \(S_N(x)\) (naranja).</li>
+            </ul>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+            <h3>Cómo usar</h3>
+            <p>Ajusta \(N\) para ver cómo mejora la aproximación parcial \(S_N(x)\).</p>
+          </div>
+
+          <!-- English -->
+          <div id="text-en" style="display:none;">
+            <h2>Fourier series of the \(2\pi\)-periodic sawtooth</h2>
+
+            <p>We consider the \(2\pi\)-periodic function:</p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              f(x)=\frac{x\ (\text{mod }2\pi)}{2\pi}\in[0,1).
+              \]
+            </p>
+
+            <p>Its Fourier series is:</p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              f(x)\sim \frac{1}{2}-\frac{1}{\pi}\sum_{n=1}^{\infty}\frac{1}{n}\sin(nx).
+              \]
+            </p>
+
+            <ul style="margin: 0; padding-left: 18px;">
+              <li>At the jump point (multiples of \(2\pi\)), the series converges to the midpoint value.</li>
+              <li>Gibbs oscillations appear near the discontinuity.</li>
+              <li>The plot shows \(f(x)\) (blue) and the \(N\)-th partial sum \(S_N(x)\) (orange).</li>
+            </ul>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+            <h3>How to use</h3>
+            <p>Adjust \(N\) to see how the partial sum \(S_N(x)\) improves.</p>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./fourier_saw.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

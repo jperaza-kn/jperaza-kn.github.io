@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D Linear Flows</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./3d_systems_flow.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>
+        3D Linear Flow
+      </h1>
+      <p style="text-align:center; font-size:1.5rem;" >
+        <em>\(\dot{X} = AX\)</em>
+      </p>
+
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section flow3d-mathlet">
+          <div id="plot"></div>
+
+          <!-- Matrix sliders (3x3) -->
+          <div class="matrix-grid" aria-label="Matrix A sliders">
+
+            <!-- Row 1 -->
+            <div class="slider-row-dash slider-mini">
+              <span class="slider-label">a₁₁</span>
+              <span class="slider-value" id="a11Val">1.00</span>
+              <div class="slider-wrap slider-wrap-mini">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="a11" class="dash-range" type="range" min="-2" max="2" step="0.1" value="1">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <div class="slider-row-dash slider-mini">
+              <span class="slider-label">a₁₂</span>
+              <span class="slider-value" id="a12Val">0.00</span>
+              <div class="slider-wrap slider-wrap-mini">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="a12" class="dash-range" type="range" min="-2" max="2" step="0.1" value="0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <div class="slider-row-dash slider-mini">
+              <span class="slider-label">a₁₃</span>
+              <span class="slider-value" id="a13Val">0.00</span>
+              <div class="slider-wrap slider-wrap-mini">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="a13" class="dash-range" type="range" min="-2" max="2" step="0.1" value="0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="slider-row-dash slider-mini">
+              <span class="slider-label">a₂₁</span>
+              <span class="slider-value" id="a21Val">0.00</span>
+              <div class="slider-wrap slider-wrap-mini">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="a21" class="dash-range" type="range" min="-2" max="2" step="0.1" value="0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <div class="slider-row-dash slider-mini">
+              <span class="slider-label">a₂₂</span>
+              <span class="slider-value" id="a22Val">1.00</span>
+              <div class="slider-wrap slider-wrap-mini">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="a22" class="dash-range" type="range" min="-2" max="2" step="0.1" value="1">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <div class="slider-row-dash slider-mini">
+              <span class="slider-label">a₂₃</span>
+              <span class="slider-value" id="a23Val">0.00</span>
+              <div class="slider-wrap slider-wrap-mini">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="a23" class="dash-range" type="range" min="-2" max="2" step="0.1" value="0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="slider-row-dash slider-mini">
+              <span class="slider-label">a₃₁</span>
+              <span class="slider-value" id="a31Val">0.00</span>
+              <div class="slider-wrap slider-wrap-mini">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="a31" class="dash-range" type="range" min="-2" max="2" step="0.1" value="0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <div class="slider-row-dash slider-mini">
+              <span class="slider-label">a₃₂</span>
+              <span class="slider-value" id="a32Val">0.00</span>
+              <div class="slider-wrap slider-wrap-mini">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="a32" class="dash-range" type="range" min="-2" max="2" step="0.1" value="0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+            <div class="slider-row-dash slider-mini">
+              <span class="slider-label">a₃₃</span>
+              <span class="slider-value" id="a33Val">1.00</span>
+              <div class="slider-wrap slider-wrap-mini">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="a33" class="dash-range" type="range" min="-2" max="2" step="0.1" value="1">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+              <span class="slider-caption"></span>
+            </div>
+
+          </div>
+
+          <!-- T slider -->
+          <div class="slider-row-dash slider-wide" style="margin-top: 18px;">
+            <span class="slider-label">T =</span>
+            <span class="slider-value" id="TVal">3.00</span>
+
+            <div class="slider-wrap slider-wrap-wide">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="T" class="dash-range" type="range" min="0.1" max="10" step="0.1" value="3">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:20%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:20%">2</span>
+                <span style="--p:50%">5</span>
+                <span style="--p:100%">10</span>
+              </div>
+            </div>
+
+            <span class="slider-caption"></span>
+          </div>
+
+          <!-- Checkboxes -->
+          <div class="checks">
+            <label class="check">
+              <input id="forwardOnly" type="checkbox" />
+              <span>Mostrar solo evolución positiva \(t\in[0,T]\)</span>
+            </label>
+            <label class="check">
+              <input id="showEig" type="checkbox" />
+              <span>Mostrar autovectores / autovalores</span>
+            </label>
+          </div>
+
+          <div id="eigInfo" class="eig-info">
+            <em>_(Haz clic en la casilla para mostrar los autovalores.)_</em>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Flujo del sistema</h2>
+            <p>
+              Este applet visualiza el campo de flujo tridimensional del sistema lineal
+              \[
+                \dot{X} = AX,\qquad A\in\mathbb{R}^{3\times 3}.
+              \]
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>Descripción</h3>
+            <ul style="margin: 0; padding-left: 18px;">
+              <li>Cada punto entero del cubo \([-2,2]^3\) es una condición inicial.</li>
+              <li>Las curvas muestran la evolución entre \(t=-T\) y \(t=T\) (o solo \(t\in[0,T]\)).</li>
+              <li>Ajusta los deslizadores para cambiar la matriz \(A\).</li>
+              <li>Activa “autovectores/autovalores” para ver direcciones propias desde el origen.</li>
+            </ul>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>System flow</h2>
+            <p>
+              This applet visualizes the 3D flow field of the linear system
+              \[
+                \dot{X} = AX,\qquad A\in\mathbb{R}^{3\times 3}.
+              \]
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>Description</h3>
+            <ul style="margin: 0; padding-left: 18px;">
+              <li>Each integer point in \([-2,2]^3\) is used as an initial condition.</li>
+              <li>Trajectories show evolution on \(t\in[-T,T]\) (or only \(t\in[0,T]\)).</li>
+              <li>Use the sliders to modify the matrix \(A\) and the integration time \(T\).</li>
+              <li>Enable eigenvectors/eigenvalues to display principal directions from the origin.</li>
+            </ul>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Pyodide helper FIRST -->
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+
+  <!-- Mathlet logic SECOND -->
+  <script src="./3d_systems_flow.js"></script>
+
+  <!-- Your site app JS (drawer, etc.) -->
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

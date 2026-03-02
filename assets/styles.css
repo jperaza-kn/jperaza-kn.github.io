@@ -207,6 +207,10 @@ body[data-nav-open="true"] .overlay {
   padding: 14px;
 }
 
+.main .section {
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
 
 /* Header card with avatar pinned top-left */
 .header-card {
@@ -558,6 +562,9 @@ input {
   color: var(--accent);
   text-decoration: underline;
 }
+
+
+
 
 /* ---------- Mathlets gallery ---------- */
 .mathlets-controls{

@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D Linear System</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./3d_systems_1.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>
+        3D Linear System : solution curves and eigenvalues.
+      </h1>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section gauss3d-mathlet">
+          <div id="plot"></div>
+
+          <!-- initial condition inputs -->
+          <div class="ic-box">
+            <div class="ic-title">Add initial condition</div>
+            <div class="ic-row">
+              <label>x₀</label>
+              <input id="x0" type="number" value="1.0" step="0.5">
+              <label>y₀</label>
+              <input id="y0" type="number" value="0.0" step="0.5">
+              <label>z₀</label>
+              <input id="z0" type="number" value="0.0" step="0.5">
+              <button id="addTraj" class="solbtn">Add trajectory</button>
+            </div>
+          </div>
+
+          <!-- sliders grid (3 rows x 3 cols) -->
+          <div class="A-grid">
+
+            <!-- Row 1 -->
+            <div class="slider-row-3">
+              <!-- a11 -->
+              <div class="slider-row-dash">
+                <span class="slider-label">\(a_{11}\)=</span>
+                <span class="slider-value" id="a11Val">1.00</span>
+                <div class="slider-wrap">
+                  <div class="rail"></div><div class="rail-fill"></div>
+                  <input id="a11" class="dash-range" type="range" min="-3" max="3" step="0.1" value="1">
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+                <span class="slider-caption"></span>
+              </div>
+
+              <!-- a12 -->
+              <div class="slider-row-dash">
+                <span class="slider-label">\(a_{12}\)=</span>
+                <span class="slider-value" id="a12Val">0.00</span>
+                <div class="slider-wrap">
+                  <div class="rail"></div><div class="rail-fill"></div>
+                  <input id="a12" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0">
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+                <span class="slider-caption"></span>
+              </div>
+
+              <!-- a13 -->
+              <div class="slider-row-dash">
+                <span class="slider-label">\(a_{13}\)=</span>
+                <span class="slider-value" id="a13Val">0.00</span>
+                <div class="slider-wrap">
+                  <div class="rail"></div><div class="rail-fill"></div>
+                  <input id="a13" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0">
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+                <span class="slider-caption"></span>
+              </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="slider-row-3">
+              <div class="slider-row-dash">
+                <span class="slider-label">\(a_{21}\)=</span>
+                <span class="slider-value" id="a21Val">0.00</span>
+                <div class="slider-wrap">
+                  <div class="rail"></div><div class="rail-fill"></div>
+                  <input id="a21" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0">
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+                <span class="slider-caption"></span>
+              </div>
+
+              <div class="slider-row-dash">
+                <span class="slider-label">\(a_{22}\)=</span>
+                <span class="slider-value" id="a22Val">1.00</span>
+                <div class="slider-wrap">
+                  <div class="rail"></div><div class="rail-fill"></div>
+                  <input id="a22" class="dash-range" type="range" min="-3" max="3" step="0.1" value="1">
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+                <span class="slider-caption"></span>
+              </div>
+
+              <div class="slider-row-dash">
+                <span class="slider-label">\(a_{23}\)=</span>
+                <span class="slider-value" id="a23Val">0.00</span>
+                <div class="slider-wrap">
+                  <div class="rail"></div><div class="rail-fill"></div>
+                  <input id="a23" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0">
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+                <span class="slider-caption"></span>
+              </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="slider-row-3">
+              <div class="slider-row-dash">
+                <span class="slider-label">\(a_{31}\)=</span>
+                <span class="slider-value" id="a31Val">0.00</span>
+                <div class="slider-wrap">
+                  <div class="rail"></div><div class="rail-fill"></div>
+                  <input id="a31" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0">
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+                <span class="slider-caption"></span>
+              </div>
+
+              <div class="slider-row-dash">
+                <span class="slider-label">\(a_{32}\)=</span>
+                <span class="slider-value" id="a32Val">0.00</span>
+                <div class="slider-wrap">
+                  <div class="rail"></div><div class="rail-fill"></div>
+                  <input id="a32" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0">
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+                <span class="slider-caption"></span>
+              </div>
+
+              <div class="slider-row-dash">
+                <span class="slider-label">\(a_{33}\)=</span>
+                <span class="slider-value" id="a33Val">1.00</span>
+                <div class="slider-wrap">
+                  <div class="rail"></div><div class="rail-fill"></div>
+                  <input id="a33" class="dash-range" type="range" min="-3" max="3" step="0.1" value="1">
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+                <span class="slider-caption"></span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- eigenvalues panel -->
+          <div class="eig-panel" id="eigPanel">
+            <div class="eig-title">Eigenvalues of \(A\)</div>
+            <div id="eigText">\(\lambda_1=?,\ \lambda_2=?,\ \lambda_3=?\)</div>
+          </div>
+
+          <!-- solution buttons -->
+          <div class="solutions" id="solutions"></div>
+
+          <!-- optional error box -->
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+
+          <!-- Language toggle -->
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <!-- Spanish -->
+          <div id="text-es">
+            <h2>Sistema lineal tridimensional</h2>
+
+            <p>
+              Este applet visualiza soluciones del sistema:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \left\{
+              \begin{aligned}
+              \dot{x} &= a_{11}x+a_{12}y+a_{13}z,\\
+              \dot{y} &= a_{21}x+a_{22}y+a_{23}z,\\
+              \dot{z} &= a_{31}x+a_{32}y+a_{33}z.
+              \end{aligned}
+              \right.
+              \]
+            </p>
+
+            <p>
+              En forma matricial: \(\dot{X}=AX\). El origen es siempre un punto crítico, y su
+              naturaleza depende de los autovalores de \(A\).
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>Cómo usar</h3>
+            <ul style="margin:0; padding-left:18px;">
+              <li>Ajusta los 9 parámetros \(a_{ij}\).</li>
+              <li>Elige \((x_0,y_0,z_0)\) y pulsa <em>Add trajectory</em>.</li>
+              <li>Puedes superponer varias soluciones.</li>
+              <li>Usa ✖ para eliminar trayectorias.</li>
+            </ul>
+          </div>
+
+          <!-- English -->
+          <div id="text-en" style="display:none;">
+            <h2>3D linear system</h2>
+
+            <p>
+              This applet plots solutions of:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \left\{
+              \begin{aligned}
+              \dot{x} &= a_{11}x+a_{12}y+a_{13}z,\\
+              \dot{y} &= a_{21}x+a_{22}y+a_{23}z,\\
+              \dot{z} &= a_{31}x+a_{32}y+a_{33}z.
+              \end{aligned}
+              \right.
+              \]
+            </p>
+
+            <p>
+              In matrix form: \(\dot{X}=AX\). The origin is always a critical point, and its
+              qualitative behavior is determined by the eigenvalues of \(A\).
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>How to use</h3>
+            <ul style="margin:0; padding-left:18px;">
+              <li>Adjust the 9 parameters \(a_{ij}\).</li>
+              <li>Choose \((x_0,y_0,z_0)\) and click <em>Add trajectory</em>.</li>
+              <li>Overlay multiple solutions to compare behavior.</li>
+              <li>Use ✖ to remove trajectories.</li>
+            </ul>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Pyodide helper FIRST -->
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+
+  <!-- Mathlet logic SECOND -->
+  <script src="./3d_systems_1.js"></script>
+
+  <!-- Your site app JS (drawer, etc.) -->
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

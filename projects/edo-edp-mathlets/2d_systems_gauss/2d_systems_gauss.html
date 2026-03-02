@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gauss Decomposition Phase Portrait</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./2d_systems_gauss.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>
+        Gauss Decomposition Phase Portrait :
+      </h1>
+      <p style="text-align:center; font-size:1.5rem;">  
+        <em>\(\dot{X}=AX,\quad A=FDE\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section gauss-mathlet">
+          <div id="plot"></div>
+
+          <!-- ROW 1: f, e -->
+          <div class="sliders-grid">
+            <div class="sliders-col">
+              <!-- f -->
+              <div class="slider-row-dash">
+                <span class="slider-label">f =</span>
+                <span class="slider-value" id="fVal">0.50</span>
+
+                <div class="slider-wrap">
+                  <div class="rail"></div>
+                  <div class="rail-fill"></div>
+
+                  <input id="f" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0.5">
+
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:16.666%"></span>
+                    <span class="dash-tick" style="--p:33.333%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:66.666%"></span>
+                    <span class="dash-tick" style="--p:83.333%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:16.666%">-2</span>
+                    <span style="--p:33.333%">-1</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:66.666%">1</span>
+                    <span style="--p:83.333%">2</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- e -->
+              <div class="slider-row-dash">
+                <span class="slider-label">e =</span>
+                <span class="slider-value" id="eVal">0.50</span>
+
+                <div class="slider-wrap">
+                  <div class="rail"></div>
+                  <div class="rail-fill"></div>
+
+                  <input id="e" class="dash-range" type="range" min="-3" max="3" step="0.1" value="0.5">
+
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:16.666%"></span>
+                    <span class="dash-tick" style="--p:33.333%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:66.666%"></span>
+                    <span class="dash-tick" style="--p:83.333%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:16.666%">-2</span>
+                    <span style="--p:33.333%">-1</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:66.666%">1</span>
+                    <span style="--p:83.333%">2</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="sliders-col">
+              <!-- d1 -->
+              <div class="slider-row-dash">
+                <span class="slider-label">d\(_1\) =</span>
+                <span class="slider-value" id="d1Val">1.00</span>
+
+                <div class="slider-wrap">
+                  <div class="rail"></div>
+                  <div class="rail-fill"></div>
+
+                  <input id="d1" class="dash-range" type="range" min="-3" max="3" step="0.1" value="1.0">
+
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:16.666%"></span>
+                    <span class="dash-tick" style="--p:33.333%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:66.666%"></span>
+                    <span class="dash-tick" style="--p:83.333%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:16.666%">-2</span>
+                    <span style="--p:33.333%">-1</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:66.666%">1</span>
+                    <span style="--p:83.333%">2</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- d2 -->
+              <div class="slider-row-dash">
+                <span class="slider-label">d\(_2\) =</span>
+                <span class="slider-value" id="d2Val">-1.00</span>
+
+                <div class="slider-wrap">
+                  <div class="rail"></div>
+                  <div class="rail-fill"></div>
+
+                  <input id="d2" class="dash-range" type="range" min="-3" max="3" step="0.1" value="-1.0">
+
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:16.666%"></span>
+                    <span class="dash-tick" style="--p:33.333%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:66.666%"></span>
+                    <span class="dash-tick" style="--p:83.333%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">-3</span>
+                    <span style="--p:16.666%">-2</span>
+                    <span style="--p:33.333%">-1</span>
+                    <span style="--p:50%">0</span>
+                    <span style="--p:66.666%">1</span>
+                    <span style="--p:83.333%">2</span>
+                    <span style="--p:100%">3</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="solutions" id="solutions"></div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <!-- Spanish -->
+          <div id="text-es">
+            <h2>Decomposición de Gauss</h2>
+
+            <p>
+              Este applet visualiza el sistema lineal
+              \[
+                \dot{X}=AX,\qquad A=FDE,
+              \]
+              con
+              \[
+              F=\begin{pmatrix}1&f\\0&1\end{pmatrix},\quad
+              D=\begin{pmatrix}d_1&0\\0&d_2\end{pmatrix},\quad
+              E=\begin{pmatrix}1&0\\e&1\end{pmatrix}.
+              \]
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>Cómo usar</h3>
+            <ul style="margin:0; padding-left:18px;">
+              <li>Ajusta \(f,e,d_1,d_2\).</li>
+              <li>Haz clic en el gráfico para crear una trayectoria desde \((x_0,y_0)\).</li>
+              <li>✖ elimina trayectorias.</li>
+            </ul>
+
+            <p style="margin-top:12px;">
+              Este tipo de descomposición es fundamental en teoría de grupos y geometría diferencial.
+            </p>
+          </div>
+
+          <!-- English -->
+          <div id="text-en" style="display:none;">
+            <h2>Gauss decomposition</h2>
+
+            <p>
+              This applet visualizes the linear system
+              \[
+                \dot{X}=AX,\qquad A=FDE,
+              \]
+              where
+              \[
+              F=\begin{pmatrix}1&f\\0&1\end{pmatrix},\quad
+              D=\begin{pmatrix}d_1&0\\0&d_2\end{pmatrix},\quad
+              E=\begin{pmatrix}1&0\\e&1\end{pmatrix}.
+              \]
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>How to use</h3>
+            <ul style="margin:0; padding-left:18px;">
+              <li>Adjust \(f,e,d_1,d_2\).</li>
+              <li>Click the plot to add a trajectory starting at \((x_0,y_0)\).</li>
+              <li>Use ✖ to remove trajectories.</li>
+            </ul>
+
+            <p style="margin-top:12px;">
+              This decomposition is central in group theory and differential geometry.
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Pyodide helper FIRST -->
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+
+  <!-- Mathlet logic SECOND -->
+  <script src="./2d_systems_gauss.js"></script>
+
+  <!-- Your site app JS (drawer, etc.) -->
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

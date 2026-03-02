@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Double Pendulum</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./double_pendulum.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS </div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>
+        Double Pendulum (angles plane)
+      </h1>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section dp-mathlet">
+          <div id="plot"></div>
+
+          <!-- theta0 -->
+          <div class="slider-row-dash">
+            <span class="slider-label">θ₀ =</span>
+            <span class="slider-value" id="thetaVal">0.60</span>
+
+            <div class="slider-wrap slider-wrap-wide">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="theta" class="dash-range" type="range" min="-3.1415926" max="3.1415926" step="0.01" value="0.6">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-π</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">π</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- phi0 -->
+          <div class="slider-row-dash">
+            <span class="slider-label">φ₀ =</span>
+            <span class="slider-value" id="phiVal">1.20</span>
+
+            <div class="slider-wrap slider-wrap-wide">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="phi" class="dash-range" type="range" min="-3.1415926" max="3.1415926" step="0.01" value="1.2">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-π</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">π</span>
+              </div>
+            </div>
+
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <!-- Spanish -->
+          <div id="text-es">
+            <h2>Péndulo doble (Hamiltoniano)</h2>
+
+            <p>
+              Consideramos dos masas puntuales iguales \(m\) unidas por dos varillas sin masa de igual longitud \(l\),
+              moviéndose en un plano vertical. Los ángulos \(\theta\) y \(\phi\) se miden respecto de la vertical.
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              H(\theta,\phi,p_\theta,p_\phi)=T(\theta,\phi,\dot\theta,\dot\phi)+V(\theta,\phi),
+              \]
+            </p>
+
+            <p>
+              donde el potencial (hasta una constante aditiva) puede escribirse como
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              V(\theta,\phi)=mgl\,(3-2\cos\theta-\cos\phi).
+              \]
+            </p>
+
+            <p>
+              En esta visualización, las curvas de nivel del fondo corresponden a
+              \[
+              H(\theta,\phi, p_\theta=0, p_\phi=0)=V(\theta,\phi),
+              \]
+              es decir, **la energía en el plano \((\theta,\phi)\)** cuando los momentos canónicos se fijan en cero.
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>Cómo usar</h3>
+            <ul style="margin: 0; padding-left: 18px;">
+              <li>Ajusta \(\theta_0\) y \(\phi_0\).</li>
+              <li>La trayectoria se integra con \(\dot\theta_0=\dot\phi_0=0\).</li>
+              <li>El plano muestra la evolución \((\theta(t),\phi(t))\).</li>
+            </ul>
+          </div>
+
+          <!-- English -->
+          <div id="text-en" style="display:none;">
+            <h2>Double pendulum (Hamiltonian)</h2>
+
+            <p>
+              We consider two equal point masses \(m\) attached by two massless rods of equal length \(l\),
+              moving in a vertical plane. Angles \(\theta\) and \(\phi\) are measured from the vertical.
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              H(\theta,\phi,p_\theta,p_\phi)=T(\theta,\phi,\dot\theta,\dot\phi)+V(\theta,\phi),
+              \]
+            </p>
+
+            <p>
+              where the potential (up to an additive constant) can be written as
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              V(\theta,\phi)=mgl\,(3-2\cos\theta-\cos\phi).
+              \]
+            </p>
+
+            <p>
+              In this applet, the background level curves correspond to
+              \[
+              H(\theta,\phi, p_\theta=0, p_\phi=0)=V(\theta,\phi),
+              \]
+              i.e. **the energy on the \((\theta,\phi)\) plane** when the canonical momenta are fixed to zero.
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>How to use</h3>
+            <ul style="margin: 0; padding-left: 18px;">
+              <li>Adjust \(\theta_0\) and \(\phi_0\).</li>
+              <li>The trajectory is integrated with \(\dot\theta_0=\dot\phi_0=0\).</li>
+              <li>The plane shows the evolution \((\theta(t),\phi(t))\).</li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Pyodide helper FIRST -->
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+
+  <!-- Mathlet logic SECOND -->
+  <script src="./double_pendulum.js"></script>
+
+  <!-- Your site app JS (drawer, etc.) -->
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

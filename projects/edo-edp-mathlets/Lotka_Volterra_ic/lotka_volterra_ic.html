@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lotka–Volterra (with Initial Conditions)</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./lotka_volterra_ic.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Lotka–Volterra (Predator–Prey)</h1>
+      <p style="text-align:center; font-size:1.35rem;">
+        <em>\(\dot x=\alpha x-\beta xy,\qquad \dot y=\delta xy-\gamma y\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section lv-mathlet">
+
+          <div class="plots">
+            <div id="plotPhase" class="plot"></div>
+            <div id="plotTime" class="plot plot-small"></div>
+          </div>
+
+          <div class="charge-row">
+            <span class="charge-label">Conserved charge:</span>
+            <span class="charge-value" id="chargeVal">—</span>
+            <span class="charge-muted" id="driftVal"></span>
+          </div>
+
+          <!-- Sliders row 1 -->
+          <div class="sliders">
+            <div class="slider-row-dash">
+              <span class="slider-label">α =</span>
+              <span class="slider-value" id="alphaVal">1.50</span>
+              <div class="slider-wrap">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="alpha" class="dash-range" type="range" min="0.1" max="4.0" step="0.01" value="1.5">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:33.333%"></span>
+                  <span class="dash-tick" style="--p:66.666%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0.1</span>
+                  <span style="--p:33.333%">1.4</span>
+                  <span style="--p:66.666%">2.7</span>
+                  <span style="--p:100%">4</span>
+                </div>
+              </div>
+              <span class="slider-caption">\(\text{prey growth}\)</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">β =</span>
+              <span class="slider-value" id="betaVal">1.00</span>
+              <div class="slider-wrap">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="beta" class="dash-range" type="range" min="0.05" max="3.0" step="0.01" value="1.0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:33.333%"></span>
+                  <span class="dash-tick" style="--p:66.666%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0.05</span>
+                  <span style="--p:33.333%">1.0</span>
+                  <span style="--p:66.666%">2.0</span>
+                  <span style="--p:100%">3</span>
+                </div>
+              </div>
+              <span class="slider-caption">\(\text{predation rate}\)</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">γ =</span>
+              <span class="slider-value" id="gammaVal">1.00</span>
+              <div class="slider-wrap">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="gamma" class="dash-range" type="range" min="0.1" max="4.0" step="0.01" value="1.0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:33.333%"></span>
+                  <span class="dash-tick" style="--p:66.666%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0.1</span>
+                  <span style="--p:33.333%">1.4</span>
+                  <span style="--p:66.666%">2.7</span>
+                  <span style="--p:100%">4</span>
+                </div>
+              </div>
+              <span class="slider-caption">\(\text{predator death}\)</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">δ =</span>
+              <span class="slider-value" id="deltaVal">1.00</span>
+              <div class="slider-wrap">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="delta" class="dash-range" type="range" min="0.05" max="3.0" step="0.01" value="1.0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:33.333%"></span>
+                  <span class="dash-tick" style="--p:66.666%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0.05</span>
+                  <span style="--p:33.333%">1.0</span>
+                  <span style="--p:66.666%">2.0</span>
+                  <span style="--p:100%">3</span>
+                </div>
+              </div>
+              <span class="slider-caption">\(\text{conversion}\)</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">x₀ =</span>
+              <span class="slider-value" id="x0Val">1.20</span>
+              <div class="slider-wrap">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="x0" class="dash-range" type="range" min="0.1" max="4.0" step="0.01" value="1.2">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:33.333%"></span>
+                  <span class="dash-tick" style="--p:66.666%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0.1</span>
+                  <span style="--p:33.333%">1.4</span>
+                  <span style="--p:66.666%">2.7</span>
+                  <span style="--p:100%">4</span>
+                </div>
+              </div>
+              <span class="slider-caption">\(\text{initial prey}\)</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">y₀ =</span>
+              <span class="slider-value" id="y0Val">0.80</span>
+              <div class="slider-wrap">
+                <div class="rail"></div><div class="rail-fill"></div>
+                <input id="y0" class="dash-range" type="range" min="0.1" max="4.0" step="0.01" value="0.8">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:33.333%"></span>
+                  <span class="dash-tick" style="--p:66.666%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0.1</span>
+                  <span style="--p:33.333%">1.4</span>
+                  <span style="--p:66.666%">2.7</span>
+                  <span style="--p:100%">4</span>
+                </div>
+              </div>
+              <span class="slider-caption">\(\text{initial predator}\)</span>
+            </div>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Descripción</h2>
+            <p>
+              El sistema de Lotka–Volterra modela dos poblaciones:
+              presa \(x(t)\) y depredador \(y(t)\).
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \dot x=\alpha x-\beta xy,\qquad \dot y=\delta xy-\gamma y.
+              \]
+            </p>
+
+            <h3>Ley de conservación</h3>
+            <p>
+              Una forma útil es escribir derivadas logarítmicas:
+              \[
+              \frac{d}{dt}\ln x=\alpha-\beta y,\qquad
+              \frac{d}{dt}\ln y=\delta x-\gamma.
+              \]
+              A partir de esto se obtiene un primer integral (cantidad conservada)
+              \[
+              C(x,y)=\delta x-\gamma\ln x+\beta y-\alpha\ln y,
+              \]
+              que permanece constante a lo largo de la trayectoria (para \(x>0,y>0\)).
+            </p>
+
+            <p>
+              El valor que ves a la izquierda es el “cargo” conservado evaluado en
+              \((x_0,y_0)\). La etiqueta “drift” muestra el máximo desvío numérico
+              debido a la integración (idealmente muy pequeño).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Description</h2>
+            <p>
+              The Lotka–Volterra system models two populations:
+              prey \(x(t)\) and predator \(y(t)\).
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \dot x=\alpha x-\beta xy,\qquad \dot y=\delta xy-\gamma y.
+              \]
+            </p>
+
+            <h3>Conservation law</h3>
+            <p>
+              A useful viewpoint is the logarithmic form:
+              \[
+              \frac{d}{dt}\ln x=\alpha-\beta y,\qquad
+              \frac{d}{dt}\ln y=\delta x-\gamma.
+              \]
+              From this one derives a first integral (conserved quantity)
+              \[
+              C(x,y)=\delta x-\gamma\ln x+\beta y-\alpha\ln y,
+              \]
+              which stays constant along the orbit (for \(x>0,y>0\)).
+            </p>
+
+            <p>
+              The number shown on the left is the conserved “charge” evaluated at
+              \((x_0,y_0)\). The “drift” label reports the maximum numerical deviation
+              along the simulated trajectory (ideally tiny).
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./lotka_volterra_ic.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

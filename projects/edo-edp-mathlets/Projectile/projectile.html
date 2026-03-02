@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projectile with Linear Drag — Compare Two Trajectories</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./projectile.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>
+        Projectile with Linear Drag </h1>
+
+      <p style="text-align:center; font-size:1.5rem;"></pstyle>
+        <em>\(\ddot x=-k\dot x,\ \ddot y=-g-k\dot y\)</em>
+      </p>
+        
+      
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section projectile-mathlet">
+
+          <div id="traj_plot"></div>
+          <div id="yt_plot" style="margin-top:12px;"></div>
+
+          <!-- Controls: A -->
+          <div class="subhead">Trajectory A</div>
+
+          <!-- v0(A) -->
+          <div class="slider-row-dash">
+            <span class="slider-label">v0(A) =</span>
+            <span class="slider-value" id="v0Val">150</span>
+
+            <div class="slider-wrap wide">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="v0" class="dash-range" type="range" min="0" max="1000" step="1" value="150">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:20%"></span>
+                <span class="dash-tick" style="--p:40%"></span>
+                <span class="dash-tick" style="--p:60%"></span>
+                <span class="dash-tick" style="--p:80%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:20%">200</span>
+                <span style="--p:40%">400</span>
+                <span style="--p:60%">600</span>
+                <span style="--p:80%">800</span>
+                <span style="--p:100%">1000</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{m/s}\)</span>
+          </div>
+
+          <!-- theta(A) -->
+          <div class="slider-row-dash">
+            <span class="slider-label">θ(A) =</span>
+            <span class="slider-value" id="thetaVal">45.0</span>
+
+            <div class="slider-wrap wide">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="theta" class="dash-range" type="range" min="0" max="90" step="0.1" value="45">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:16.666%"></span>
+                <span class="dash-tick" style="--p:33.333%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:66.666%"></span>
+                <span class="dash-tick" style="--p:83.333%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0°</span>
+                <span style="--p:16.666%">15°</span>
+                <span style="--p:33.333%">30°</span>
+                <span style="--p:50%">45°</span>
+                <span style="--p:66.666%">60°</span>
+                <span style="--p:83.333%">75°</span>
+                <span style="--p:100%">90°</span>
+              </div>
+            </div>
+
+            <span class="slider-caption"></span>
+          </div>
+
+          <!-- k(A) -->
+          <div class="slider-row-dash">
+            <span class="slider-label">k(A) =</span>
+            <span class="slider-value" id="kVal">0.20</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="kdrag" class="dash-range" type="range" min="0" max="2" step="0.01" value="0.20">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:50%">1</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+
+            <span class="slider-caption"></span>
+          </div>
+
+          <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+          <!-- Controls: B -->
+          <div class="subhead">Trajectory B</div>
+
+          <!-- v0(B) -->
+          <div class="slider-row-dash">
+            <span class="slider-label">v0(B) =</span>
+            <span class="slider-value" id="v0bVal">150</span>
+
+            <div class="slider-wrap wide">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="v0b" class="dash-range" type="range" min="0" max="1000" step="1" value="150">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:20%"></span>
+                <span class="dash-tick" style="--p:40%"></span>
+                <span class="dash-tick" style="--p:60%"></span>
+                <span class="dash-tick" style="--p:80%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:20%">200</span>
+                <span style="--p:40%">400</span>
+                <span style="--p:60%">600</span>
+                <span style="--p:80%">800</span>
+                <span style="--p:100%">1000</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{m/s}\)</span>
+          </div>
+
+          <!-- theta(B) -->
+          <div class="slider-row-dash">
+            <span class="slider-label">θ(B) =</span>
+            <span class="slider-value" id="thetabVal">45.0</span>
+
+            <div class="slider-wrap wide">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="thetab" class="dash-range" type="range" min="0" max="90" step="0.1" value="45">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:16.666%"></span>
+                <span class="dash-tick" style="--p:33.333%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:66.666%"></span>
+                <span class="dash-tick" style="--p:83.333%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0°</span>
+                <span style="--p:16.666%">15°</span>
+                <span style="--p:33.333%">30°</span>
+                <span style="--p:50%">45°</span>
+                <span style="--p:66.666%">60°</span>
+                <span style="--p:83.333%">75°</span>
+                <span style="--p:100%">90°</span>
+              </div>
+            </div>
+
+            <span class="slider-caption"></span>
+          </div>
+
+          <!-- k(B) -->
+          <div class="slider-row-dash">
+            <span class="slider-label">k(B) =</span>
+            <span class="slider-value" id="kbVal">0.50</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="kdragb" class="dash-range" type="range" min="0" max="2" step="0.01" value="0.50">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:50%">1</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+
+            <span class="slider-caption"></span>
+          </div>
+
+          <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+          <!-- Gravity mode -->
+          <div class="gravity-row">
+            <label class="check">
+              <input id="useNewton" type="checkbox">
+              <span>Newtonian gravity</span>
+            </label>
+
+            <div class="gwrap">
+              <div class="slider-row-dash" style="margin:0;">
+                <span class="slider-label">g =</span>
+                <span class="slider-value" id="gVal">9.807</span>
+
+                <div class="slider-wrap">
+                  <div class="rail"></div>
+                  <div class="rail-fill"></div>
+                  <input id="gval" class="dash-range" type="range" min="1" max="20" step="0.001" value="9.80665">
+
+                  <div class="dash-ticks">
+                    <span class="dash-tick" style="--p:0%"></span>
+                    <span class="dash-tick" style="--p:22.222%"></span>
+                    <span class="dash-tick" style="--p:50%"></span>
+                    <span class="dash-tick" style="--p:77.777%"></span>
+                    <span class="dash-tick" style="--p:100%"></span>
+                  </div>
+
+                  <div class="dash-tick-labels">
+                    <span style="--p:0%">1</span>
+                    <span style="--p:22.222%">5</span>
+                    <span style="--p:50%">10</span>
+                    <span style="--p:77.777%">15</span>
+                    <span style="--p:100%">20</span>
+                  </div>
+                </div>
+
+                <span class="slider-caption">\(\text{m/s}^2\)</span>
+              </div>
+            </div>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+
+          <!-- Language toggle -->
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <!-- Spanish -->
+          <div id="text-es">
+            <h2>Información de las trayectorias</h2>
+
+            <p>
+              Comparamos dos lanzamientos balísticos, <strong>A</strong> (azul) y <strong>B</strong> (rojo),
+              con rozamiento lineal proporcional a la velocidad.
+              La curva verde punteada es la referencia para A sin rozamiento (\(k=0\)).
+            </p>
+
+            <p>
+              Puedes usar gravedad uniforme:
+              \[
+                \ddot x=-k\dot x,\qquad \ddot y=-g-k\dot y,
+              \]
+              o activar gravedad newtoniana:
+              \[
+                \ddot{\vec r}=-\frac{GM}{\|\vec r\|^3}\vec r-k\dot{\vec r}.
+              \]
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>Métricas</h3>
+            <p>Abajo se muestran: tiempo de vuelo, alcance, altura máxima y velocidad al impacto.</p>
+          </div>
+
+          <!-- English -->
+          <div id="text-en" style="display:none;">
+            <h2>Trajectory information</h2>
+
+            <p>
+              We compare two ballistic launches, <strong>A</strong> (blue) and <strong>B</strong> (red),
+              with linear drag proportional to velocity.
+              The green dashed curve is the reference for A with no drag (\(k=0\)).
+            </p>
+
+            <p>
+              You can use uniform gravity:
+              \[
+                \ddot x=-k\dot x,\qquad \ddot y=-g-k\dot y,
+              \]
+              or enable Newtonian gravity:
+              \[
+                \ddot{\vec r}=-\frac{GM}{\|\vec r\|^3}\vec r-k\dot{\vec r}.
+              \]
+            </p>
+
+            <hr style="border:0;border-top:1px solid rgba(31,42,58,.7); margin: 16px 0;" />
+
+            <h3>Metrics</h3>
+            <p>Below: time of flight, range, max height, and impact speed.</p>
+          </div>
+
+          <div id="metrics_panel" class="metrics-panel"></div>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pyodide loader -->
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+
+  <!-- Mathlet logic -->
+  <script src="./projectile.js"></script>
+
+  <!-- drawer/site -->
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

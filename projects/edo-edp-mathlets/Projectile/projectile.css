@@ -1,0 +1,341 @@
+/* =========================
+   Layout / Plots
+   ========================= */
+
+.mathlet-wrap{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 520px;
+  gap: 14px;
+  align-items: start;
+}
+
+@media (max-width: 1100px){
+  .mathlet-wrap{ grid-template-columns: 1fr; }
+}
+
+#traj_plot{
+  width: 100%;
+  height: 520px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 42, 58, .7);
+  background: rgba(8, 12, 18, .25);
+}
+
+#yt_plot{
+  width: 100%;
+  height: 340px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 42, 58, .7);
+  background: rgba(8, 12, 18, .25);
+}
+
+.projectile-mathlet .subhead{
+  text-align: center;
+  color: var(--text);
+  font-weight: 600;
+  margin: 8px 0 4px;
+}
+
+/* =========================
+   Metrics panel
+   ========================= */
+
+.metrics-panel{
+  margin-top: 12px;
+  border: 1px solid rgba(31,42,58,.7);
+  border-radius: 12px;
+  background: rgba(8, 12, 18, .25);
+  padding: 12px;
+}
+
+.metric-block{
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(120,120,120,.25);
+}
+
+.metric-block:last-child{
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.metric-title{
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.metric-line{
+  margin: 2px 0;
+  color: var(--text);
+}
+
+/* =========================
+   Checkbox row
+   ========================= */
+
+/* =========================
+   Compact gravity row
+   ========================= */
+
+.gravity-row{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 8px auto 4px;
+  width: 100%;
+}
+
+/* Compact checkbox */
+.check{
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--text);
+  font-size: 14px;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.check input{
+  transform: translateY(1px);
+  width: 14px;
+  height: 14px;
+}
+
+/* Reduce g slider width */
+
+.gravity-row  .slider-wrap.wide{
+  width: 200px;
+}
+
+.gravity-row .slider-row-dash{
+  margin: 0;
+}
+
+/* =========================
+   Dash-like sliders (scoped)
+   ========================= */
+
+.projectile-mathlet .slider-row-dash{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: min(740px, 100%);
+  margin: 12px auto;
+}
+
+.projectile-mathlet .slider-label{
+  font-size: 16px;
+  color: var(--muted);
+  min-width: 72px;
+  text-align: right;
+}
+
+.projectile-mathlet .slider-value{
+  font-size: 16px;
+  color: var(--text);
+  min-width: 64px;
+  text-align: left;
+}
+
+.projectile-mathlet .slider-caption{
+  font-size: 16px;
+  color: var(--muted);
+  min-width: 70px;
+  text-align: left;
+}
+
+.projectile-mathlet .slider-wrap{
+  position: relative;
+  width: 260px;
+  height: 34px;
+  --inset: 10px;
+  --fill: 50;
+}
+
+.projectile-mathlet .slider-wrap.wide{
+  width: 360px;
+}
+
+/* Rail */
+.projectile-mathlet .rail{
+  position: absolute;
+  left: var(--inset);
+  right: var(--inset);
+  top: 50%;
+  height: 6px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: #d9d9d9;
+  z-index: 0;
+}
+
+/* Fill */
+.projectile-mathlet .rail-fill{
+  position: absolute;
+  left: var(--inset);
+  top: 50%;
+  height: 6px;
+  transform: translateY(-50%);
+  width: calc((100% - (2 * var(--inset))) * (var(--fill) / 100));
+  border-radius: 999px;
+  background: #1677ff;
+  z-index: 1;
+}
+
+/* Input */
+.projectile-mathlet input.dash-range{
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  left: var(--inset);
+  right: var(--inset);
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(100% - (2 * var(--inset)));
+  height: 20px;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  z-index: 2;
+}
+
+/* WebKit track transparent */
+.projectile-mathlet input.dash-range::-webkit-slider-runnable-track{
+  height: 6px;
+  background: transparent !important;
+  border: 0;
+}
+
+/* WebKit thumb */
+.projectile-mathlet input.dash-range::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #1677ff;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, .45);
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+/* Firefox track */
+.projectile-mathlet input.dash-range::-moz-range-track{
+  height: 6px;
+  background: transparent !important;
+  border: 0;
+}
+
+/* Firefox thumb */
+.projectile-mathlet input.dash-range::-moz-range-thumb{
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #1677ff;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, .45);
+  cursor: pointer;
+}
+
+/* Ticks */
+.projectile-mathlet .dash-ticks{
+  position: absolute;
+  left: var(--inset);
+  right: var(--inset);
+  top: calc(50% + 12px);
+  height: 10px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.projectile-mathlet .dash-tick{
+  position: absolute;
+  left: var(--p);
+  width: 2px;
+  height: 8px;
+  transform: translateX(-50%);
+  background: rgba(120,120,120,.7);
+  border-radius: 2px;
+  opacity: .55;
+}
+
+.projectile-mathlet .dash-tick.active{
+  background: rgba(22,119,255,.95);
+  opacity: 1;
+}
+
+/* Tick labels */
+.projectile-mathlet .dash-tick-labels{
+  position: absolute;
+  left: var(--inset);
+  right: var(--inset);
+  top: calc(50% + 22px);
+  height: 14px;
+  pointer-events: none;
+  user-select: none;
+  font-size: 12px;
+  color: var(--muted);
+  z-index: 4;
+}
+
+.projectile-mathlet .dash-tick-labels span{
+  position: absolute;
+  left: var(--p);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.projectile-mathlet .dash-tick-labels span[style*="--p:0%"]{ transform: translateX(0%); }
+.projectile-mathlet .dash-tick-labels span[style*="--p:100%"]{ transform: translateX(-100%); }
+
+/* Thumb “override patch” to beat any global range styling */
+.projectile-mathlet input.dash-range{
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.projectile-mathlet input.dash-range::-webkit-slider-runnable-track{
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  height: 6px !important;
+}
+.projectile-mathlet input.dash-range::-webkit-slider-thumb{
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  border: 2px solid #1677ff !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, .45) !important;
+  cursor: pointer !important;
+  margin-top: -5px !important;
+}
+.projectile-mathlet input.dash-range::-moz-range-track{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  height: 6px !important;
+}
+.projectile-mathlet input.dash-range::-moz-range-thumb{
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  border: 2px solid #1677ff !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, .45) !important;
+  cursor: pointer !important;
+}

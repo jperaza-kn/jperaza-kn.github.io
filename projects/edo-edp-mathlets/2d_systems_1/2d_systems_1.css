@@ -1,0 +1,269 @@
+/* =========================
+   Layout / Plot
+   ========================= */
+
+.mathlet-wrap{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 520px;
+  gap: 14px;
+  align-items: start;
+}
+
+@media (max-width: 1200px){
+  .mathlet-wrap{ grid-template-columns: 1fr; }
+}
+
+#plot{
+  width: 100%;
+  height: 640px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 42, 58, .7);
+  background: rgba(8, 12, 18, .25);
+}
+
+/* Two sliders per row (matrix entries) */
+.lattice-mathlet .slider-pair{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* ✅ allow shrinking */
+  gap: 8px;
+  margin-top: 20px;
+  width: 110%;                 /* ✅ stay inside card */
+}
+
+.lattice-mathlet .slider-row-dash.slim{
+  gap: 8px;
+  width: 100%;                 /* ✅ don't exceed its grid cell */
+  margin: 0;
+  justify-content: center;
+}
+@media (max-width: 700px){
+  .lattice-mathlet .slider-pair{ grid-template-columns: 1fr; }
+}
+
+/* ==========================================================
+   Dash-like sliders
+   ========================================================== */
+
+.lattice-mathlet .slider-row-dash{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: min(720px, 100%);
+  margin: 20px auto;
+}
+
+/* Slim version for the 2-up matrix sliders */
+
+
+.lattice-mathlet .slider-label{
+  font-size: 15px;
+  color: var(--muted);
+  min-width: 54px;
+  text-align: right;
+}
+
+.lattice-mathlet .slider-value{
+  font-size: 15px;
+  color: var(--text);
+  min-width: 62px;
+  text-align: left;
+}
+
+.lattice-mathlet .slider-caption{
+  font-size: 15px;
+  color: var(--muted);
+  min-width: 64px;
+  text-align: left;
+}
+
+/* Wrapper */
+.lattice-mathlet .slider-wrap{
+  position: relative;
+  width: 220px;
+  height: 34px;
+  --inset: 10px;
+  --fill: 50;
+}
+.lattice-mathlet .slider-wrap.wide{
+  width: 320px;
+}
+
+/* Rail */
+.lattice-mathlet .rail{
+  position: absolute;
+  left: var(--inset);
+  right: var(--inset);
+  top: 50%;
+  height: 6px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: #d9d9d9;
+  z-index: 0;
+}
+
+/* Fill */
+.lattice-mathlet .rail-fill{
+  position: absolute;
+  left: var(--inset);
+  top: 50%;
+  height: 6px;
+  transform: translateY(-50%);
+  width: calc((100% - (2 * var(--inset))) * (var(--fill) / 100));
+  border-radius: 999px;
+  background: #1677ff;
+  z-index: 1;
+}
+
+/* Input */
+.lattice-mathlet input.dash-range{
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  left: var(--inset);
+  right: var(--inset);
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(100% - (2 * var(--inset)));
+  height: 20px;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  z-index: 2;
+}
+
+.lattice-mathlet input.dash-range::-webkit-slider-runnable-track{
+  height: 6px;
+  background: transparent !important;
+  border: 0;
+}
+
+.lattice-mathlet input.dash-range::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #1677ff;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, .45);
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+.lattice-mathlet input.dash-range::-moz-range-track{
+  height: 6px;
+  background: transparent !important;
+  border: 0;
+}
+
+.lattice-mathlet input.dash-range::-moz-range-thumb{
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #1677ff;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, .45);
+  cursor: pointer;
+}
+
+/* Ticks */
+.lattice-mathlet .dash-ticks{
+  position: absolute;
+  left: var(--inset);
+  right: var(--inset);
+  top: calc(50% + 12px);
+  height: 10px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.lattice-mathlet .dash-tick{
+  position: absolute;
+  left: var(--p);
+  width: 2px;
+  height: 8px;
+  transform: translateX(-50%);
+  background: rgba(120,120,120,.7);
+  border-radius: 2px;
+  opacity: .55;
+}
+
+.lattice-mathlet .dash-tick.active{
+  background: rgba(22,119,255,.95);
+  opacity: 1;
+}
+
+/* Tick labels */
+.lattice-mathlet .dash-tick-labels{
+  position: absolute;
+  left: var(--inset);
+  right: var(--inset);
+  top: calc(50% + 22px);
+  height: 14px;
+  pointer-events: none;
+  user-select: none;
+  font-size: 12px;
+  color: var(--muted);
+  z-index: 4;
+}
+
+.lattice-mathlet .dash-tick-labels span{
+  position: absolute;
+  left: var(--p);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.lattice-mathlet .dash-tick-labels span[style*="--p:0%"]{ transform: translateX(0%); }
+.lattice-mathlet .dash-tick-labels span[style*="--p:100%"]{ transform: translateX(-100%); }
+
+/* =========================
+   PATCH: thumbs (win over global range styles)
+   ========================= */
+.lattice-mathlet input.dash-range{
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.lattice-mathlet input.dash-range::-webkit-slider-runnable-track{
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  height: 6px !important;
+}
+.lattice-mathlet input.dash-range::-webkit-slider-thumb{
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  border: 2px solid #1677ff !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, .45) !important;
+  cursor: pointer !important;
+  margin-top: -5px !important;
+}
+.lattice-mathlet input.dash-range::-moz-range-track{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  height: 6px !important;
+}
+.lattice-mathlet input.dash-range::-moz-range-thumb{
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  border: 2px solid #1677ff !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, .45) !important;
+  cursor: pointer !important;
+}

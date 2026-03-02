@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heat Equation (1D)</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./heat_1d.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax (LaTeX) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>
+        Heat Equation 1D
+      </h1>
+      <p style="text-align:center; font-size:1.5rem;">
+        <em>\(\partial_t u = k\,\partial_{xx}u,\ x\in[0,10],\ t\in[0,10]\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section heat-mathlet">
+
+          <div id="plot"></div>
+
+          <!-- Top controls: IC + show modes -->
+          <div class="top-controls">
+            <div class="top-controls__label">Initial condition:</div>
+
+            <select id="ic-kind" class="select">
+              <option value="uniform" selected>Uniform</option>
+              <option value="gaussian">Gaussian peak</option>
+              <option value="linear">Linear (steady state)</option>
+            </select>
+
+            <label class="check">
+              <input id="show-modes" type="checkbox" />
+              <span>show 5 Fourier modes</span>
+            </label>
+          </div>
+
+          <!-- t -->
+          <div class="slider-row-dash">
+            <span class="slider-label">t =</span>
+            <span class="slider-value" id="tVal">0.0</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="t" class="dash-range" type="range" min="0" max="10" step="0.1" value="0.0">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:20%"></span>
+                <span class="dash-tick" style="--p:40%"></span>
+                <span class="dash-tick" style="--p:60%"></span>
+                <span class="dash-tick" style="--p:80%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:20%">2</span>
+                <span style="--p:40%">4</span>
+                <span style="--p:60%">6</span>
+                <span style="--p:80%">8</span>
+                <span style="--p:100%">10</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{Time}\)</span>
+          </div>
+
+          <!-- U0 -->
+          <div class="slider-row-dash">
+            <span class="slider-label">u(0,t) =</span>
+            <span class="slider-value" id="U0Val">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="U0" class="dash-range" type="range" min="-5" max="5" step="0.1" value="0.0">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:30%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:70%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-5</span>
+                <span style="--p:30%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:70%">2</span>
+                <span style="--p:100%">5</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{BC at }x=0\)</span>
+          </div>
+
+          <!-- UL -->
+          <div class="slider-row-dash">
+            <span class="slider-label">u(10,t) =</span>
+            <span class="slider-value" id="ULVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="UL" class="dash-range" type="range" min="-5" max="5" step="0.1" value="0.0">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:30%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:70%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-5</span>
+                <span style="--p:30%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:70%">2</span>
+                <span style="--p:100%">5</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{BC at }x=10\)</span>
+          </div>
+
+          <!-- k -->
+          <div class="slider-row-dash">
+            <span class="slider-label">k =</span>
+            <span class="slider-value" id="kVal">0.30</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="kappa" class="dash-range" type="range" min="0" max="2" step="0.01" value="0.3">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:25%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:75%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:25%">0.5</span>
+                <span style="--p:50%">1</span>
+                <span style="--p:75%">1.5</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{Diffusivity}\)</span>
+          </div>
+
+          <!-- IC PARAMS: Uniform -->
+          <div id="ic-uniform-params">
+            <div class="slider-row-dash">
+              <span class="slider-label">C =</span>
+              <span class="slider-value" id="CVal">1.00</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+
+                <input id="C" class="dash-range" type="range" min="-5" max="5" step="0.1" value="1.0">
+
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:30%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:70%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-5</span>
+                  <span style="--p:30%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:70%">2</span>
+                  <span style="--p:100%">5</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">\(\text{Uniform amplitude}\)</span>
+            </div>
+          </div>
+
+          <!-- IC PARAMS: Gaussian -->
+          <div id="ic-gaussian-params" style="display:none;">
+            <div class="slider-row-dash">
+              <span class="slider-label">A =</span>
+              <span class="slider-value" id="AVal">5.00</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+
+                <input id="A" class="dash-range" type="range" min="-5" max="5" step="0.1" value="5.0">
+
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:30%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:70%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-5</span>
+                  <span style="--p:30%">-2</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:70%">2</span>
+                  <span style="--p:100%">5</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">\(\text{Peak amplitude}\)</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">x₀ =</span>
+              <span class="slider-value" id="x0Val">5.00</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+
+                <input id="x0" class="dash-range" type="range" min="0" max="10" step="0.1" value="5.0">
+
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:25%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:75%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0</span>
+                  <span style="--p:25%">2.5</span>
+                  <span style="--p:50%">5</span>
+                  <span style="--p:75%">7.5</span>
+                  <span style="--p:100%">10</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">\(\text{Peak center}\)</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">σ =</span>
+              <span class="slider-value" id="sigmaVal">0.50</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+
+                <input id="sigma" class="dash-range" type="range" min="0.1" max="2" step="0.01" value="0.5">
+
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:21.052%"></span>
+                  <span class="dash-tick" style="--p:47.368%"></span>
+                  <span class="dash-tick" style="--p:73.684%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0.1</span>
+                  <span style="--p:21.052%">0.5</span>
+                  <span style="--p:47.368%">1</span>
+                  <span style="--p:73.684%">1.5</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">\(\text{Peak width}\)</span>
+            </div>
+          </div>
+
+          <!-- IC NOTE: Linear -->
+          <div id="ic-linear-note" class="ic-note" style="display:none;">
+            The linear initial condition equals the steady state.
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+
+          <!-- Language toggle -->
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <!-- Spanish -->
+          <div id="text-es">
+            <h2>Descripción</h2>
+
+            <p>
+              Resolvemos la ecuación de calor 1D:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \partial_t u = k\,\partial_{xx}u,\quad x\in[0,10],\ t\in[0,10].
+              \]
+            </p>
+
+            <p>
+              Con condiciones de frontera \(u(t,0)=u_0\) y \(u(t,10)=u_{10}\),
+              el <strong>estado estacionario</strong> es:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              u_s(x) = u_0 + \frac{u_{10}-u_0}{10}\,x,
+              \]
+            </p>
+
+            <p>
+              mostrado como <strong>línea punteada</strong>. Puedes activar los
+              <strong>primeros 5 modos</strong> (gradiente verde) y mover el deslizador de
+              <strong>tiempo</strong>.
+            </p>
+
+            <h3>Solución explícita (modos de Fourier) — condición inicial uniforme</h3>
+
+            <p>
+            Para \(u_t=k\,u_{xx}\) en \(x\in[0,L]\) con \(u(0,t)=u_0\), \(u(L,t)=u_L\) y
+            condición inicial uniforme \(u(x,0)=C\), escribimos
+            \(u(x,t)=u_s(x)+v(x,t)\), donde
+            \[
+            u_s(x)=u_0+\frac{u_L-u_0}{L}\,x
+            \]
+            es el estado estacionario y \(v\) satisface fronteras homogéneas.
+            Entonces
+            \[
+            v(x,t)=\sum_{n=1}^{\infty} b_n\,e^{-k\left(\frac{n\pi}{L}\right)^2 t}\,
+            \sin\!\left(\frac{n\pi x}{L}\right),
+            \]
+            con coeficientes
+            \[
+            b_n=\frac{2}{L}\int_{0}^{L}\big(C-u_s(x)\big)\,
+            \sin\!\left(\frac{n\pi x}{L}\right)\,dx.
+            \]
+            En particular, al evaluar la integral se obtiene
+            \[
+            b_n=\frac{2}{n\pi}\Big[(C-u_0)\big(1-(-1)^n\big)+(u_L-u_0)(-1)^n\Big].
+            \]
+            (En este mathlet usamos \(L=10\).)
+            </p>
+
+            <h3>Opciones del mathlet</h3>
+
+            <ul style="margin: 0; padding-left: 18px;">
+              <li><strong>Condición inicial</strong>:
+                <ul style="margin: 6px 0 10px; padding-left: 18px;">
+                  <li><em>Uniforme</em>: \(u(x,0)=C\) constante.</li>
+                  <li><em>Pico gaussiano</em>: \(u(x,0)=A\,e^{-\frac{(x-x_0)^2}{2\sigma^2}}\) (controlas amplitud \(A\), centro \(x_0\) y ancho \(\sigma\)).</li>
+                  <li><em>Lineal</em>: coincide con el estado estacionario \(u_s(x)\) (no hay transitorio).</li>
+                </ul>
+              </li>
+
+              <li><strong>Condiciones de frontera (Dirichlet)</strong>:
+                ajusta \(u(t,0)=u_0\) y \(u(t,10)=u_{10}\). Esto fija el <em>estado estacionario</em>
+                \[
+                  u_s(x)=u_0+\frac{u_{10}-u_0}{10}\,x,
+                \]
+                mostrado como línea punteada.
+              </li>
+
+              <li><strong>Difusividad</strong> \(k\): controla la rapidez con la que la temperatura se “suaviza”.
+                Valores mayores de \(k\) hacen que el perfil se estabilice más rápido.
+              </li>
+
+              <li><strong>Tiempo</strong> \(t\): mueve el deslizador para ver la evolución \(u(x,t)\).</li>
+
+              <li><strong>Mostrar 5 modos de Fourier</strong>:
+                activa la casilla para visualizar las primeras contribuciones del desarrollo en senos (gradiente verde).
+              </li>
+            </ul>
+          </div>
+
+          <!-- English -->
+          <div id="text-en" style="display:none;">
+            <h2>Description</h2>
+
+            <p>
+              We solve the 1D heat equation:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \partial_t u = k\,\partial_{xx}u,\quad x\in[0,10],\ t\in[0,10].
+              \]
+            </p>
+
+            <p>
+              With boundary values \(u(t,0)=u_0\) and \(u(t,10)=u_{10}\), the
+              <strong>steady state</strong> is:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              u_s(x) = u_0 + \frac{u_{10}-u_0}{10}\,x,
+              \]
+            </p>
+
+            <p>
+              shown as a <strong>dashed line</strong>. You can show the
+              <strong>first 5 modes</strong> (green gradient) and move the
+              <strong>time</strong> slider.
+            </p>
+
+            <h3>Explicit solution (Fourier modes) — uniform initial condition</h3>
+
+            <p>
+            For \(u_t=k\,u_{xx}\) on \(x\in[0,L]\) with \(u(0,t)=u_0\), \(u(L,t)=u_L\), and
+            uniform initial condition \(u(x,0)=C\), write
+            \(u(x,t)=u_s(x)+v(x,t)\), where the steady state is
+            \[
+            u_s(x)=u_0+\frac{u_L-u_0}{L}\,x
+            \]
+            and \(v\) satisfies homogeneous Dirichlet boundaries. Then
+            \[
+            v(x,t)=\sum_{n=1}^{\infty} b_n\,e^{-k\left(\frac{n\pi}{L}\right)^2 t}\,
+            \sin\!\left(\frac{n\pi x}{L}\right),
+            \]
+            with coefficients
+            \[
+            b_n=\frac{2}{L}\int_{0}^{L}\big(C-u_s(x)\big)\,
+            \sin\!\left(\frac{n\pi x}{L}\right)\,dx.
+            \]
+            Evaluating the integral gives
+            \[
+            b_n=\frac{2}{n\pi}\Big[(C-u_0)\big(1-(-1)^n\big)+(u_L-u_0)(-1)^n\Big].
+            \]
+            (In this mathlet we use \(L=10\).)
+            </p>
+
+            <h3>Mathlet features</h3>
+
+            <ul style="margin: 0; padding-left: 18px;">
+              <li><strong>Initial condition</strong>:
+                <ul style="margin: 6px 0 10px; padding-left: 18px;">
+                  <li><em>Uniform</em>: \(u(x,0)=C\) constant.</li>
+                  <li><em>Gaussian peak</em>: \(u(x,0)=A\,e^{-\frac{(x-x_0)^2}{2\sigma^2}}\) (you control amplitude \(A\), center \(x_0\), and width \(\sigma\)).</li>
+                  <li><em>Linear</em>: equals the steady state \(u_s(x)\) (no transient dynamics).</li>
+                </ul>
+              </li>
+
+              <li><strong>Boundary conditions (Dirichlet)</strong>:
+                adjust \(u(t,0)=u_0\) and \(u(t,10)=u_{10}\). This fixes the <em>steady state</em>
+                \[
+                  u_s(x)=u_0+\frac{u_{10}-u_0}{10}\,x,
+                \]
+                shown as a dashed line.
+              </li>
+
+              <li><strong>Diffusivity</strong> \(k\): controls how fast the profile smooths out.
+                Larger \(k\) makes the solution relax faster.
+              </li>
+
+              <li><strong>Time</strong> \(t\): move the slider to see the evolution \(u(x,t)\).</li>
+
+              <li><strong>Show 5 Fourier modes</strong>:
+                check the box to display the first sine-series mode contributions (green gradient).
+              </li>
+            </ul>
+
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Pyodide helper FIRST -->
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+
+  <!-- Mathlet logic SECOND -->
+  <script src="./heat_1d.js"></script>
+
+  <!-- Your site app JS (drawer, etc.) -->
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

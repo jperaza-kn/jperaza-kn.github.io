@@ -1,13 +1,160 @@
 {
     "items": [
         {
-            "title": "Isoclines Explorer",
-            "description": "Visualize isoclines and direction fields for first-order ODEs.",
+            "title": "Isoclines 1",
+            "description": "Visualize isoclines and slope field for first-order ODEs.",
             "tags": [
                 "ODE",
-                "Direction fields"
+                "Slope field"
             ],
             "url": "projects/edo-edp-mathlets/isoclines/isoclines.html"
+        },
+        {
+            "title": "Isoclines 2",
+            "description": "Visualize isoclines and slope field for first-order ODEs.",
+            "tags": [
+                "ODE",
+                "Slope field"
+            ],
+            "url": "projects/edo-edp-mathlets/isoclines_2/isoclines_2.html"
+        },
+        {
+            "title": "Isoclines for the Pendulum",
+            "description": "Simple Pendulum ODE with damping and forcing. Visualize isoclines and slope field.",
+            "tags": [
+                "ODE",
+                "Slope field",
+                "Pendulum"
+            ],
+            "url": "projects/edo-edp-mathlets/isoclines_pendulum/isoclines_pendulum.html"
+        },
+        {
+            "title": "Fourier Series: Step Function",
+            "description": "Visualize the Fourier series for a step function.",
+            "tags": [
+                "Fourier Series"
+            ],
+            "url": "projects/edo-edp-mathlets/Fourier_series_1/fourier_step.html"
+        },
+        {
+            "title": "Fourier Series: Sawtooth Function",
+            "description": "Visualize the Fourier series for a sawtooth function.",
+            "tags": [
+                "Fourier Series"
+            ],
+            "url": "projects/edo-edp-mathlets/Fourier_series_2/fourier_saw.html"
+        },
+        {
+            "title": "Fourier Series: Quadratic Function",
+            "description": "Visualize the Fourier series for a quadratic function.",
+            "tags": [
+                "Fourier Series"
+            ],
+            "url": "projects/edo-edp-mathlets/Fourier_series_3/fourier_x2.html"
+        },
+        {
+            "title": "Heat equation in 1D",
+            "description": "Visualize the solution of the heat equation in 1D.",
+            "tags": [
+                "Heat equation",
+                "PDE"
+            ],
+            "url": "projects/edo-edp-mathlets/Heat_1D/heat_1d.html"
+        },
+        {
+            "title": "Projectile motion",
+            "description": "Visualize the trajectory of a projectile with linear drag.",
+            "tags": [
+                "Projectile",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/Projectile/projectile.html"
+        },
+        {
+            "title": "2D Linear Systems: visualization of trajectories",
+            "description": "Visualize the trajectory of a projectile with linear drag.",
+            "tags": [
+                "Linear Systems",
+                "ODE",
+                "Solutions"
+            ],
+            "url": "projects/edo-edp-mathlets/2d_systems_1/2d_systems_1.html"
+        },
+        {
+            "title": "2D Linear Systems: Gauss decomposition",
+            "description": "Visualize the trajectory of a 2D linear system using Gauss decomposition.",
+            "tags": [
+                "Linear Systems",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/2d_systems_gauss/2d_systems_gauss.html"
+        },
+        {
+            "title": "3D Linear Systems: visualization of trajectories",
+            "description": "Visualize the trajectory of a 3D linear system.",
+            "tags": [
+                "Linear Systems",
+                "ODE",
+                "Solutions"
+            ],
+            "url": "projects/edo-edp-mathlets/3d_systems_1/3d_systems_1.html"
+        },
+        {
+            "title": "3D Linear Systems: visualization of flows",
+            "description": "Visualize the flow of a 3D linear system.",
+            "tags": [
+                "Linear Systems",
+                "ODE",
+                "Flows"
+            ],
+            "url": "projects/edo-edp-mathlets/3d_systems_flow/3d_systems_flow.html"
+        },
+        {
+            "title": "Harmonic Oscillator",
+            "description": "Visualize the phase space of a harmonic oscillator.",
+            "tags": [
+                "Linear Systems",
+                "ODE",
+                "Hamiltonian Systems"
+            ],
+            "url": "projects/edo-edp-mathlets/Harmonic_oscillator/Harmonic_oscillator.html"
+        },
+        {
+            "title": "Double Pendulum",
+            "description": "Visualize the angle space of a double pendulum.",
+            "tags": [
+                "Nonlinear Systems",
+                "ODE",
+                "Hamiltonian Systems"
+            ],
+            "url": "projects/edo-edp-mathlets/Double_pendulum/double_pendulum.html"
+        },
+        {
+            "title": "Wave equation in 1D",
+            "description": "Visualize the solution of the wave equation in 1D.",
+            "tags": [
+                "Wave equation",
+                "PDE"
+            ],
+            "url": "projects/edo-edp-mathlets/Wave_1D/wave_1d.html"
+        },
+        {
+            "title": "Lotka-Volterra model: visualizer",
+            "description": "Visualize the solution of the Lotka-Volterra model.",
+            "tags": [
+                "Nonlinear Systems",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/Lotka_Volterra/lotka_volterra.html"
+        },
+        {
+            "title": "Lotka-Volterra model: solver",
+            "description": "Solve the Lotka-Volterra model.",
+            "tags": [
+                "Nonlinear Systems",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/Lotka_Volterra_ic/lotka_volterra_ic.html"
         }
     ]
 }
