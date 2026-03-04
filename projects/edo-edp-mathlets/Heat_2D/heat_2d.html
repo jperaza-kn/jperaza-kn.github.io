@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heat Equation (2D)</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./heat_2d.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Heat Equation 2D</h1>
+      <p style="text-align:center; font-size:1.35rem;">
+        <em>\(u_t = \Delta u\)</em> on <em>\([0,1]\times[0,1]\)</em> with fixed Dirichlet boundary data</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section heat2d-mathlet">
+
+          <div id="plotTop"></div>
+          <div id="plotBottom"></div>
+
+          <div class="top-controls">
+            <button id="startBtn" class="solbtn">Start</button>
+            <button id="resetBtn" class="solbtn">Reset</button>
+            <span style="color:var(--muted); font-size:14px;">t = <span id="tVal">0.00</span></span>
+          </div>
+
+          <!-- a -->
+          <div class="slider-row-dash">
+            <span class="slider-label">a =</span>
+            <span class="slider-value" id="aVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="a" class="dash-range" type="range" min="-3" max="3" step="0.01" value="0.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-3</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">3</span>
+              </div>
+            </div>
+            <span class="slider-caption">\(\ u(0,y)=y^2+ay+b\)</span>
+          </div>
+
+          <!-- b -->
+          <div class="slider-row-dash">
+            <span class="slider-label">b =</span>
+            <span class="slider-value" id="bVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="b" class="dash-range" type="range" min="-2" max="2" step="0.01" value="0.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+            <span class="slider-caption">\(\ u(0,0)=b\)</span>
+          </div>
+
+          <!-- c -->
+          <div class="slider-row-dash">
+            <span class="slider-label">c =</span>
+            <span class="slider-value" id="cVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="c" class="dash-range" type="range" min="-3" max="3" step="0.01" value="0.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-3</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">3</span>
+              </div>
+            </div>
+            <span class="slider-caption">\(\ u(1,y)=y^2+cy+d\)</span>
+          </div>
+
+          <!-- d -->
+          <div class="slider-row-dash">
+            <span class="slider-label">d =</span>
+            <span class="slider-value" id="dVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="d" class="dash-range" type="range" min="-2" max="2" step="0.01" value="0.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+            <span class="slider-caption">\(\ u(1,0)=d\)</span>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Descripción</h2>
+            <p>
+              Resolvemos la ecuación de calor en 2D con condiciones de borde de Dirichlet fijas:
+            </p>
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+                u_t = \Delta u,\qquad (x,y)\in[0,1]^2,\qquad u|_{\partial\Omega}=g.
+              \]
+            </p>
+            <p>
+              Los bordes se parametrizan con \(a,b,c,d\):
+              \(\ u(0,y)=y^2+ay+b\), \(\ u(1,y)=y^2+cy+d\),
+              y tomamos \(u(x,0)\) y \(u(x,1)\) lineales para que las esquinas coincidan.
+            </p>
+            <p>
+              Al presionar <strong>Start</strong>, avanzamos hasta \(t=2\) (más lento) y verás cómo el calor
+              <em>suaviza</em> el perfil interior hacia el estado estacionario armónico (la solución de Laplace con el mismo borde).
+              La condición inicial \(u(x,y,0)\) se construye para respetar exactamente el borde y contener una perturbación interior
+              que desaparece en \(\partial\Omega\).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Description</h2>
+            <p>
+              We solve the 2D heat equation with fixed Dirichlet boundary data:
+            </p>
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+                u_t = \Delta u,\qquad (x,y)\in[0,1]^2,\qquad u|_{\partial\Omega}=g.
+              \]
+            </p>
+            <p>
+              The boundary is parameterized by \(a,b,c,d\):
+              \(\ u(0,y)=y^2+ay+b\), \(\ u(1,y)=y^2+cy+d\),
+              and we choose \(u(x,0)\), \(u(x,1)\) to be linear so corners match exactly.
+            </p>
+            <p>
+              Press <strong>Start</strong> to run the evolution up to \(t=2\) (slower). The heat flow smooths the interior
+              and relaxes toward the harmonic steady state (the Laplace solution with the same boundary).
+              The initial condition \(u(x,y,0)\) is built to satisfy the boundary exactly while adding a purely interior bump
+              that vanishes on \(\partial\Omega\).
+            </p>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./heat_2d.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

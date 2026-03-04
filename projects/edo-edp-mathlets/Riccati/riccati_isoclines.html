@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Riccati Equation — Isoclines</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./riccati_isoclines.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Riccati equation — isoclines</h1>
+      <p style="text-align:center; font-size:1.1rem;">
+        <em>\(y' + A(x)\,y + B(x)\,y^2 = C(x)\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section riccati-mathlet">
+
+          <div id="plot"></div>
+
+          <!-- isocline value m -->
+          <div class="slider-row-dash">
+            <span class="slider-label">m =</span>
+            <span class="slider-value" id="mVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="m" class="dash-range" type="range" min="-2" max="2" step="0.01" value="0.0">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{isocline } y'=m\)</span>
+          </div>
+
+          <!-- Inputs -->
+          <div class="form">
+            <div class="formrow">
+              <label for="Aexpr">A(x)=</label>
+              <input id="Aexpr" type="text" value="0" />
+              <label for="Bexpr">B(x)=</label>
+              <input id="Bexpr" type="text" value="1" />
+            </div>
+
+            <div class="formrow">
+              <label for="Cexpr">C(x)=</label>
+              <input id="Cexpr" type="text" value="0" />
+              <label for="x0">x₀=</label>
+              <input id="x0" type="number" value="0" step="0.01" />
+            </div>
+
+            <div class="formrow">
+              <label for="y0">y₀=</label>
+              <input id="y0" type="number" value="0.5" step="0.01" />
+              <div></div><div></div>
+            </div>
+
+            <div class="btnrow">
+              <button id="graphBtn" class="solbtn">Graph</button>
+              <button id="clearBtn" class="solbtn">Clear solutions</button>
+            </div>
+          </div>
+
+          <div class="solutions-box" id="solutions"></div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Idea</h2>
+            <p>
+              La ecuación de Riccati
+              \[
+                y' + A(x)\,y + B(x)\,y^2 = C(x)
+              \]
+              es no lineal. Si conoces <em>una solución particular</em> \(y_p(x)\), entonces el cambio
+              \[
+                y(x)=y_p(x)+\frac{1}{u(x)}
+              \]
+              reduce Riccati a una ecuación lineal de primer orden para \(u(x)\).
+            </p>
+            <p>
+              En la figura, el campo direccional corresponde a
+              \[
+                y' = C(x)-A(x)\,y-B(x)\,y^2,
+              \]
+              y la isoclina naranja es el conjunto donde \(y'=m\).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Idea</h2>
+            <p>
+              The Riccati equation
+              \[
+                y' + A(x)\,y + B(x)\,y^2 = C(x)
+              \]
+              is nonlinear. If you know <em>one particular solution</em> \(y_p(x)\), then the substitution
+              \[
+                y(x)=y_p(x)+\frac{1}{u(x)}
+              \]
+              turns Riccati into a first-order linear ODE for \(u(x)\).
+            </p>
+            <p>
+              In the plot, the direction field is for
+              \[
+                y' = C(x)-A(x)\,y-B(x)\,y^2,
+              \]
+              and the orange curve is the isocline where \(y'=m\).
+            </p>
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./riccati_isoclines.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

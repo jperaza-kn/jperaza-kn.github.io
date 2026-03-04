@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Burgers Shock Formation</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./burgers.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Burgers equation: shock formation</h1>
+      <p style="text-align:center; font-size:1.15rem;">
+        <em>Inviscid Burgers \(u_t + u u_x = 0\) and intersecting characteristics</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <section class="card section burgers-mathlet isoclines-mathlet">
+          <div id="plotU"></div>
+          <div id="plotXT"></div>
+
+          <div class="below-controls">
+
+            <div class="row">
+              <div class="field">
+                <label for="ic">Initial condition</label>
+                <select id="ic">
+                  <option value="sawtooth">Sawtooth</option>
+                  <option value="gaussian" selected>Gaussian</option>
+                  <option value="step">Step</option>
+                </select>
+              </div>
+              <button class="solbtn" id="recomputeBtn">Apply</button>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">t =</span>
+              <span class="slider-value" id="tVal">0.00</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+                <input id="t" class="dash-range" type="range" min="0" max="1.5" step="0.005" value="0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:25%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:75%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0</span>
+                  <span style="--p:25%">0.38</span>
+                  <span style="--p:50%">0.75</span>
+                  <span style="--p:75%">1.13</span>
+                  <span style="--p:100%">1.5</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">time</span>
+            </div>
+
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Características y shocks</h2>
+            <p>
+              La ecuación inviscida de Burgers
+              \[
+                u_t + u\,u_x = 0
+              \]
+              es un prototipo de <strong>ley de conservación</strong>. Para datos suaves, el método de características da:
+              cada punto \(x_0\) del tiempo inicial viaja con velocidad \(u_0(x_0)\).
+            </p>
+
+            <p class="mj">
+              \[
+                x(t)=x_0 + u_0(x_0)\, t, \qquad u(x(t),t)=u_0(x_0).
+              \]
+            </p>
+
+            <p>
+              Si \(u_0\) decrece en alguna región, características “rápidas” alcanzan a las “lentas”, y
+              las curvas se <strong>intersectan</strong>. Ahí el gradiente se hace infinito y aparece un <strong>shock</strong>.
+            </p>
+
+            <p>
+              Después del cruce, la solución clásica deja de existir; la solución física se selecciona con una
+              <strong>condición de entropía</strong>. El applet muestra:
+            </p>
+            <ul>
+              <li>Arriba: el perfil \(u(x,t)\) (solución de entropía vía Godunov).</li>
+              <li>Abajo: características rectas \(x(t)\) que pueden intersectarse.</li>
+            </ul>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Characteristics and shocks</h2>
+            <p>
+              The inviscid Burgers equation
+              \[
+                u_t + u\,u_x = 0
+              \]
+              is a prototypical <strong>conservation law</strong>. For smooth initial data, the method of characteristics says:
+              each initial point \(x_0\) travels at speed \(u_0(x_0)\).
+            </p>
+
+            <p class="mj">
+              \[
+                x(t)=x_0 + u_0(x_0)\, t, \qquad u(x(t),t)=u_0(x_0).
+              \]
+            </p>
+
+            <p>
+              If \(u_0\) decreases somewhere, “fast” characteristics catch “slow” ones, so the characteristic lines
+              <strong>intersect</strong>. Then the gradient blows up and a <strong>shock</strong> forms.
+            </p>
+
+            <p>
+              After crossing, the classical solution breaks down; the physical one is selected by an
+              <strong>entropy condition</strong>. This applet shows:
+            </p>
+            <ul>
+              <li>Top: the profile \(u(x,t)\) (entropy solution via a Godunov scheme).</li>
+              <li>Bottom: straight characteristic lines \(x(t)\), which may intersect.</li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./burgers.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+</html>

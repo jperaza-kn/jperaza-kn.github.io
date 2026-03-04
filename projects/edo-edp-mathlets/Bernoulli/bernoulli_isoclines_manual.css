@@ -1,0 +1,214 @@
+/* Layout / Plot */
+.mathlet-wrap{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 520px;
+  gap: 14px;
+  align-items: start;
+}
+@media (max-width: 1100px){ .mathlet-wrap{ grid-template-columns: 1fr; } }
+
+#plot{
+  width: 100%;
+  height: 640px;
+  border-radius: 12px;
+  border: 1px solid rgba(31, 42, 58, .7);
+  background: rgba(8, 12, 18, .25);
+}
+
+/* Dash-like slider system (adapted from your isoclines.css) */
+.bernoulli-mathlet .slider-row-dash{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:min(720px, 100%); margin: 10px auto;
+}
+.bernoulli-mathlet .slider-label{
+  font-size:16px; color:var(--muted); min-width:42px; text-align:right;
+}
+.bernoulli-mathlet .slider-value{
+  font-size:16px; color:var(--text); min-width:64px; text-align:left;
+}
+.bernoulli-mathlet .slider-caption{
+  font-size:16px; color:var(--muted); min-width:140px; text-align:left;
+}
+
+.bernoulli-mathlet .slider-wrap{
+  position: relative;
+  width: 300px;
+  height: 80px;
+  --inset: 10px;
+  --fill: 50;
+}
+.bernoulli-mathlet .rail{
+  position:absolute; left:var(--inset); right:var(--inset);
+  top:50%; height:6px; transform:translateY(-50%);
+  border-radius:999px; background:#d9d9d9; z-index:0;
+}
+.bernoulli-mathlet .rail-fill{
+  position:absolute; left:var(--inset); top:50%; height:6px; transform:translateY(-50%);
+  width: calc((100% - (2 * var(--inset))) * (var(--fill) / 100));
+  border-radius:999px; background:#1677ff; z-index:1;
+}
+.bernoulli-mathlet input.dash-range{
+  -webkit-appearance:none; appearance:none;
+  position:absolute; left:var(--inset); right:var(--inset); top:50%;
+  transform:translateY(-50%);
+  width: calc(100% - (2 * var(--inset)));
+  height:20px; outline:none; margin:0; padding:0; border:0;
+  background: transparent !important; box-shadow:none !important; z-index:2;
+}
+.bernoulli-mathlet input.dash-range::-webkit-slider-runnable-track{ height:6px; background:transparent !important; border:0; }
+.bernoulli-mathlet input.dash-range::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width:16px; height:16px; border-radius:50%;
+  border:2px solid #1677ff; background:#fff;
+  box-shadow:0 0 0 2px rgba(22,119,255,.45);
+  cursor:pointer; margin-top:-5px;
+}
+.bernoulli-mathlet input.dash-range::-moz-range-track{ height:6px; background:transparent !important; border:0; }
+.bernoulli-mathlet input.dash-range::-moz-range-thumb{
+  width:16px; height:16px; border-radius:50%;
+  border:2px solid #1677ff; background:#fff;
+  box-shadow:0 0 0 2px rgba(22,119,255,.45);
+  cursor:pointer;
+}
+
+.bernoulli-mathlet .dash-ticks{
+  position:absolute; left:var(--inset); right:var(--inset);
+  top: calc(50% + 12px); height:10px; pointer-events:none; z-index:3;
+}
+.bernoulli-mathlet .dash-tick{
+  position:absolute; left:var(--p); width:2px; height:8px; transform:translateX(-50%);
+  background: rgba(120,120,120,.7); border-radius:2px; opacity:.55;
+}
+.bernoulli-mathlet .dash-tick.active{ background: rgba(22,119,255,.95); opacity:1; }
+
+.bernoulli-mathlet .dash-tick-labels{
+  position:absolute; left:var(--inset); right:var(--inset);
+  top: calc(50% + 22px); height:14px; pointer-events:none; user-select:none;
+  font-size:12px; color: var(--muted); z-index:4;
+}
+.bernoulli-mathlet .dash-tick-labels span{
+  position:absolute; left:var(--p); transform:translateX(-50%); white-space:nowrap;
+}
+.bernoulli-mathlet .dash-tick-labels span[style*="--p:0%"]{ transform: translateX(0%); }
+.bernoulli-mathlet .dash-tick-labels span[style*="--p:100%"]{ transform: translateX(-100%); }
+
+/* Inputs */
+.inputs{ width: min(760px, 100%); margin: 14px auto 6px; }
+.inputs__row{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; }
+.inputs__label{ color: var(--muted); font-size: 14px; }
+.inputs__field{
+  width: 220px; padding: 8px 10px; border-radius: 10px;
+  border: 1px solid rgba(31,42,58,.9);
+  background: rgba(12,19,32,.7);
+  color: var(--text);
+  outline: none;
+}
+.inputs__field--small{ width: 70px; text-align:center; }
+.inputs__field:focus{ border-color: rgba(116,179,255,.55); box-shadow: 0 0 0 2px rgba(22,119,255,.18); }
+
+.inputs__btn{
+  border: 1px solid rgba(31,42,58,.9);
+  background: rgba(12,19,32,.7);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.inputs__btn:hover{ border-color: rgba(116,179,255,.35); background: rgba(116,179,255,.08); }
+
+.inputs__hint{ text-align:center; margin-top: 10px; color: var(--muted); font-size: 13px; }
+.inputs__hint code{
+  background: rgba(255,255,255,.06);
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(31,42,58,.6);
+}
+
+.solutions{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top: 18px; }
+.solbtn{
+  border: 1px solid rgba(31, 42, 58, .9);
+  background: rgba(12, 19, 32, .7);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.solbtn:hover{ border-color: rgba(116, 179, 255, .35); background: rgba(116, 179, 255, .08); }
+
+.langrow{ display:flex; justify-content:flex-end; margin-bottom: 8px; }
+
+.errbox{
+  border: 1px solid rgba(255, 120, 120, .5);
+  background: rgba(255, 120, 120, .10);
+  color: #ffd4d4;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+}
+
+
+/* --- Bernoulli: expression + IC inputs --- */
+.bernoulli-mathlet .input-grid{
+  width: min(760px, 100%);
+  margin: 12px auto 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 110px 110px;
+  gap: 10px;
+  align-items: end;
+}
+
+@media (max-width: 860px){
+  .bernoulli-mathlet .input-grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.bernoulli-mathlet .inp{
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.bernoulli-mathlet .inp input{
+  background: rgba(12, 19, 32, .7);
+  border: 1px solid rgba(31, 42, 58, .9);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 9px 10px;
+  outline: none;
+}
+
+.bernoulli-mathlet .ic-row{
+  width: min(760px, 100%);
+  margin: 10px auto 6px;
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.bernoulli-mathlet .ic-title{
+  color: var(--muted);
+  font-size: 14px;
+  margin-right: 6px;
+}
+
+.bernoulli-mathlet .ic-inp{
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.bernoulli-mathlet .ic-inp input{
+  width: 120px;
+  background: rgba(12, 19, 32, .7);
+  border: 1px solid rgba(31, 42, 58, .9);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 9px 10px;
+  outline: none;
+}

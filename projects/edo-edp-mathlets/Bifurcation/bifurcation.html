@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bifurcation Explorer</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./bifurcation.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Bifurcation diagram explorer</h1>
+      <p style="text-align:center; font-size:1.15rem;">
+        <em>Pitchfork / transcritical bifurcations in 1D ODEs</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section bif-mathlet isoclines-mathlet">
+
+          <div id="plotBif"></div>
+          <div id="plotTime"></div>
+
+          <div class="below-controls">
+            <div class="row">
+              <div class="field">
+                <label for="model">ODE</label>
+                <select id="model">
+                  <option value="pitchfork">x' = r x - x^3 (pitchfork)</option>
+                  <option value="logistic">x' = r x (1-x) (transcritical)</option>
+                </select>
+              </div>
+
+              <div class="field small">
+                <label for="x0">x₀</label>
+                <input id="x0" type="number" value="0.2" step="0.1" />
+              </div>
+
+              <button class="solbtn" id="addBtn">Add solution</button>
+              <button class="solbtn" id="clearBtn">Clear</button>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">r =</span>
+              <span class="slider-value" id="rVal">0.00</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+                <input id="r" class="dash-range" type="range" min="-2" max="2" step="0.01" value="0.00">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:25%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:75%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-2</span>
+                  <span style="--p:25%">-1</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:75%">1</span>
+                  <span style="--p:100%">2</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">parameter</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">T =</span>
+              <span class="slider-value" id="TVal">10.0</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+                <input id="T" class="dash-range" type="range" min="2" max="30" step="1" value="10">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:25%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:75%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">2</span>
+                  <span style="--p:25%">9</span>
+                  <span style="--p:50%">16</span>
+                  <span style="--p:75%">23</span>
+                  <span style="--p:100%">30</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">integration time</span>
+            </div>
+
+            <div class="hint">
+              Click on the <strong>left edge</strong> of the lower plot (at \(t=0\)) to set \(x_0\).
+            </div>
+
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Bifurcaciones</h2>
+            <p>
+              En una EDO 1D \(x'=f(x;r)\), un <strong>equilibrio</strong> satisface \(f(x^*;r)=0\).
+              Su estabilidad viene dada por \(f_x(x^*;r)\): si \(f_x<0\) es estable, si \(f_x>0\) es inestable.
+            </p>
+
+            <h3>Pitchfork (supercrítico)</h3>
+            <p>
+              Para \(x' = r x - x^3\): \(x^*=0\) existe siempre, y para \(r>0\) aparecen
+              \(x^*=\pm\sqrt{r}\). El equilibrio \(0\) cambia estabilidad en \(r=0\), dando el diagrama de pitchfork.
+            </p>
+
+            <h3>Logística</h3>
+            <p>
+              Para \(x'=r x(1-x)\): \(x^*=0\) y \(x^*=1\). En \(r=0\) intercambian estabilidad (bifurcación transcrítica).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Bifurcations</h2>
+            <p>
+              For a 1D ODE \(x'=f(x;r)\), an <strong>equilibrium</strong> satisfies \(f(x^*;r)=0\).
+              Stability is given by \(f_x(x^*;r)\): if \(f_x<0\) it is stable, if \(f_x>0\) it is unstable.
+            </p>
+
+            <h3>Supercritical pitchfork</h3>
+            <p>
+              For \(x' = r x - x^3\): \(x^*=0\) exists for all \(r\), and for \(r>0\) two new equilibria appear,
+              \(x^*=\pm\sqrt{r}\). The \(0\) equilibrium changes stability at \(r=0\), producing the pitchfork diagram.
+            </p>
+
+            <h3>Logistic</h3>
+            <p>
+              For \(x'=r x(1-x)\): \(x^*=0\) and \(x^*=1\). At \(r=0\) they exchange stability (a transcritical bifurcation).
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./bifurcation.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+</html>

@@ -155,6 +155,126 @@
                 "ODE"
             ],
             "url": "projects/edo-edp-mathlets/Lotka_Volterra_ic/lotka_volterra_ic.html"
+        },
+        {
+            "title": "Lorenz system",
+            "description": "Visualize the solution of the Lorenz system.",
+            "tags": [
+                "Nonlinear Systems",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/Lorenz_system/lorenz_3d.html"
+        },
+        {
+            "title": "Logistic Equation",
+            "description": "Visualize the solution of the logistic equation.",
+            "tags": [
+                "Nonlinear Systems",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/Logistic_1/logistic_equation.html"
+        },
+        {
+            "title": "Logistic Equation: competitive Lotka-Volterra",
+            "description": "Visualize the solution of the competitive Lotka-Volterra model.",
+            "tags": [
+                "Nonlinear Systems",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/Logistic_2/competitive_lv.html"
+        },
+        {
+            "title": "Van der Pol Oscillator",
+            "description": "Solution of the Van der Pol oscillator.",
+            "tags": [
+                "Nonlinear Systems",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/Van_der_Pol/vanderpol.html"
+        },
+        {
+            "title": "Laplace equation in 2D",
+            "description": "Laplace equation in 2D for a mesh with Dirichlet boundary conditions.",
+            "tags": [
+                "Laplace equation",
+                "PDE"
+            ],
+            "url": "projects/edo-edp-mathlets/Laplace_2D/laplace_2d.html"
+        },
+        {
+            "title": "Eikonal equation: Snell's Law",
+            "description": "Eikonal equation in 1D and Snell's law for refraction of light at an interface.",
+            "tags": [
+                "Eikonal equation",
+                "PDE"
+            ],
+            "url": "projects/edo-edp-mathlets/Eikonal_snell/eikonal_snell.html"
+        },
+        {
+            "title": "Schrodinger equation in 1D",
+            "description": "Quantum tunneling through a potential barrier for the Schrodinger equation in 1D.",
+            "tags": [
+                "Schrodinger equation",
+                "PDE"
+            ],
+            "url": "projects/edo-edp-mathlets/Schrodinger_barrier/schrodinger_barrier.html"
+        },
+        {
+            "title": "Heat equation in 2D",
+            "description": "Solution of the heat equation in 2D.",
+            "tags": [
+                "Heat equation",
+                "PDE"
+            ],
+            "url": "projects/edo-edp-mathlets/Heat_2D/heat_2d.html"
+        },
+        {
+            "title": "Bernoulli's equation",
+            "description": "Solution of Bernoulli's equation",
+            "tags": [
+                "Bernoulli's equation",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/Bernoulli/bernoulli_isoclines_manual.html"
+        },
+        {
+            "title": "Riccati's equation",
+            "description": "Solution of Riccati's equation",
+            "tags": [
+                "Riccati's equation",
+                "ODE"
+            ],
+            "url": "projects/edo-edp-mathlets/Riccati/riccati_isoclines.html"
+        },
+        {
+            "title": "Lyapunov Functions",
+            "description": "Visualize Lyapunov functions for a system of ODEs.",
+            "tags": [
+                "Lyapunov Functions",
+                "ODE",
+                "Nonlinear Systems"
+            ],
+            "url": "projects/edo-edp-mathlets/Lyapunov/lyapunov.html"
+        },
+        {
+            "title": "Bifurcation Diagrams",
+            "description": "Visualize bifurcation diagrams for a system of ODEs.",
+            "tags": [
+                "Bifurcation Diagrams",
+                "ODE",
+                "Nonlinear Systems"
+            ],
+            "url": "projects/edo-edp-mathlets/Bifurcation/bifurcation.html"
+        },
+        {
+            "title": "Burger's equation",
+            "description": "Visualize the solution of Burger's equation.",
+            "tags": [
+                "Burger's equation",
+                "PDE",
+                "Nonlinear Equations"
+            ],
+            "url": "projects/edo-edp-mathlets/Burgers/burgers.html"
         }
     ]
 }

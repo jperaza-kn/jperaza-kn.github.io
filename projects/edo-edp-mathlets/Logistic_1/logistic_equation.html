@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logistic Equation</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./logistic_equation.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Logistic Equation</h1>
+      <p style="text-align:center; font-size:1.5rem;">
+        <em>\(\displaystyle \frac{dx}{dt}=r\,x\Big(1-\frac{x}{K}\Big)\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section logistic-mathlet">
+
+          <div id="plot"></div>
+          <div id="plot_time"></div>
+
+          <!-- Sliders -->
+          <div class="slider-row-dash">
+            <span class="slider-label">K =</span>
+            <span class="slider-value" id="KVal">10.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="K" class="dash-range" type="range" min="0.5" max="50" step="0.1" value="10.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:25%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:75%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0.5</span>
+                <span style="--p:25%">13</span>
+                <span style="--p:50%">25</span>
+                <span style="--p:75%">37</span>
+                <span style="--p:100%">50</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{carrying capacity}\)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">r =</span>
+            <span class="slider-value" id="rVal">1.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="r" class="dash-range" type="range" min="0" max="5" step="0.01" value="1.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:25%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:75%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:25%">1.25</span>
+                <span style="--p:50%">2.5</span>
+                <span style="--p:75%">3.75</span>
+                <span style="--p:100%">5</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{growth rate}\)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">x₀ =</span>
+            <span class="slider-value" id="x0Val">1.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="x0" class="dash-range" type="range" min="0.01" max="50" step="0.01" value="1.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:25%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:75%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0.01</span>
+                <span style="--p:25%">12.5</span>
+                <span style="--p:50%">25</span>
+                <span style="--p:75%">37.5</span>
+                <span style="--p:100%">50</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{initial condition}\)</span>
+          </div>
+
+          <pre id="errBox"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Descripción</h2>
+            <p>
+              La <strong>ecuación logística</strong> modela el crecimiento de una población con recursos limitados:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \frac{dx}{dt}=r\,x\Big(1-\frac{x}{K}\Big).
+              \]
+            </p>
+
+            <ul>
+              <li>\(r\) es la <strong>tasa de crecimiento</strong>.</li>
+              <li>\(K\) es la <strong>capacidad de carga</strong> (máximo sostenible).</li>
+              <li>\(x(0)=x_0\) es la condición inicial.</li>
+            </ul>
+
+            <h3>Solución analítica</h3>
+            <p>
+              Para \(x(0)=x_0\), la solución cerrada es:
+            </p>
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              x(t)=\frac{K}{1+\left(\frac{K-x_0}{x_0}\right)e^{-rt}}.
+              \]
+            </p>
+
+            <p>
+              En la izquierda: arriba se muestra el <strong>retrato de fase</strong> \((x,\,dx/dt)\),
+              y abajo la <strong>evolución temporal</strong> \(x(t)\). Las líneas punteadas marcan los equilibrios \(x=0\) y \(x=K\).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Description</h2>
+            <p>
+              The <strong>logistic equation</strong> models population growth with limited resources:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \frac{dx}{dt}=r\,x\Big(1-\frac{x}{K}\Big).
+              \]
+            </p>
+
+            <ul>
+              <li>\(r\) is the <strong>growth rate</strong>.</li>
+              <li>\(K\) is the <strong>carrying capacity</strong> (sustainable maximum).</li>
+              <li>\(x(0)=x_0\) is the initial condition.</li>
+            </ul>
+
+            <h3>Analytical solution</h3>
+            <p>
+              For \(x(0)=x_0\), the closed-form solution is:
+            </p>
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              x(t)=\frac{K}{1+\left(\frac{K-x_0}{x_0}\right)e^{-rt}}.
+              \]
+            </p>
+
+            <p>
+              On the left: the top figure shows the <strong>phase portrait</strong> \((x,\,dx/dt)\),
+              and the bottom figure shows the <strong>time evolution</strong> \(x(t)\). Dashed lines mark equilibria \(x=0\) and \(x=K\).
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./logistic_equation.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

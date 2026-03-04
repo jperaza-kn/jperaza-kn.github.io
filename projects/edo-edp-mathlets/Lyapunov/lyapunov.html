@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lyapunov Visualizer</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./lyapunov.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Liapunov / First Integrals Visualizer</h1>
+      <p style="text-align:center; font-size:1.15rem;">
+        <em>Phase portrait + candidate Lyapunov function (when detected)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section lyap-mathlet">
+          <div id="plotPhase"></div>
+
+          <div class="below-controls">
+            <div class="row">
+              <div class="field">
+                <label for="fx">x′ =</label>
+                <input id="fx" type="text" value="x^2 - y" spellcheck="false" />
+              </div>
+              <div class="field">
+                <label for="gy">y′ =</label>
+                <input id="gy" type="text" value="2*x^3 - 2*x*y" spellcheck="false" />
+              </div>
+              <button class="solbtn" id="applyBtn">Apply</button>
+            </div>
+
+            <div class="row">
+              <div class="field small">
+                <label for="x0">x₀</label>
+                <input id="x0" type="number" value="0.0" step="0.1" />
+              </div>
+              <div class="field small">
+                <label for="y0">y₀</label>
+                <input id="y0" type="number" value="1.0" step="0.1" />
+              </div>
+              <button class="solbtn" id="addSolBtn">Add solution</button>
+              <button class="solbtn" id="clearBtn">Clear solutions</button>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">T =</span>
+              <span class="slider-value" id="TVal">4.0</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+                <input id="T" class="dash-range" type="range" min="0.5" max="12" step="0.5" value="4.0">
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:25%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:75%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0.5</span>
+                  <span style="--p:25%">3.5</span>
+                  <span style="--p:50%">6.5</span>
+                  <span style="--p:75%">9.5</span>
+                  <span style="--p:100%">12</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">\(\text{integration time}\)</span>
+            </div>
+
+            <div class="meta">
+              <div id="eqLatex" class="eqbox"></div>
+              <div id="lyBox" class="lybox"></div>
+            </div>
+          </div>
+
+          <div id="plotVwrap" class="vwrap" style="display:none;">
+            <div class="vtitle">Candidate \(V(x,y)\)</div>
+            <div id="plotV"></div>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Idea</h2>
+            <p>
+              Para un sistema autónomo \(\dot x=f(x,y),\ \dot y=g(x,y)\), una <strong>función de Liapunov</strong>
+              \(V(x,y)\) cerca de un equilibrio satisface típicamente \(V\ge 0\) y
+              \(\dot V=\nabla V\cdot (f,g)\le 0\).
+              A veces se encuentran <strong>pre‑integrales</strong> (integrales primeras) \(H(x,y)\) con
+              \(\frac{d}{dt}H(x(t),y(t))=0\). Entonces \(V=H^2\) es no‑creciente (de hecho constante).
+            </p>
+
+            <h3>Heurísticas del applet</h3>
+            <ul>
+              <li>Si \(\frac{dy}{dx}=\frac{g}{f}\) depende sólo de \(x\), entonces \(H=y-\int q(x)\,dx\) es constante.</li>
+              <li>Si \(\partial_y f=\partial_x g\), intenta reconstruir un potencial \(V\) con \((f,g)=-\nabla V\).</li>
+            </ul>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Idea</h2>
+            <p>
+              For an autonomous system \(\dot x=f(x,y),\ \dot y=g(x,y)\), a <strong>Lyapunov function</strong>
+              \(V(x,y)\) near an equilibrium typically satisfies \(V\ge 0\) and
+              \(\dot V=\nabla V\cdot (f,g)\le 0\).
+              Sometimes one finds <strong>first integrals</strong> \(H(x,y)\) with
+              \(\frac{d}{dt}H(x(t),y(t))=0\). Then \(V=H^2\) is non‑increasing (in fact constant).
+            </p>
+
+            <h3>Applet heuristics</h3>
+            <ul>
+              <li>If \(\frac{dy}{dx}=\frac{g}{f}\) depends only on \(x\), then \(H=y-\int q(x)\,dx\) is conserved.</li>
+              <li>If \(\partial_y f=\partial_x g\), it tries to reconstruct a potential \(V\) such that \((f,g)=-\nabla V\).</li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./lyapunov.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eikonal / Snell Law</title>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./eikonal_snell.css" />
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Eikonal Equation — Snell's Law (two media)</h1>
+      <p style="text-align:center; font-size:1.2rem;">
+        <em>Source at \((0,1)\), target at \((2,-1)\), interface \(y=0\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section eikonal-mathlet">
+
+          <div id="plotTop"></div>
+          <div id="plotBottom"></div>
+
+          <div class="readouts">
+            <div>interface point \(x^\*=\) <code id="xStar">—</code></div>
+            <div>minimal travel time \(\tau^\*=\) <code id="tauStar">—</code></div>
+            <div>interface time \(t_\mathrm{int}=\) <code id="tInt">—</code></div>
+            <div>arrival time \(t_\mathrm{arr}=\) <code id="tArr">—</code></div>
+            <div>Snell \(n_1\sin\theta_1=\) <code id="snellLeft">—</code></div>
+            <div>Snell \(n_2\sin\theta_2=\) <code id="snellRight">—</code></div>
+            <div>residual \(n_1\sin\theta_1-n_2\sin\theta_2=\) <code id="snellRes">—</code></div>
+          </div>
+
+          <!-- Sliders (bottom, same vibe) -->
+          <div class="slider-row-dash">
+            <span class="slider-label">n₁ =</span>
+            <span class="slider-value" id="n1Val">1.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="n1" class="dash-range" type="range" min="0.6" max="2.4" step="0.01" value="1.00">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:25%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:75%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0.6</span>
+                <span style="--p:25%">1.05</span>
+                <span style="--p:50%">1.5</span>
+                <span style="--p:75%">1.95</span>
+                <span style="--p:100%">2.4</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">upper medium (y&gt;0)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">n₂ =</span>
+            <span class="slider-value" id="n2Val">1.50</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="n2" class="dash-range" type="range" min="0.6" max="2.4" step="0.01" value="1.50">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:25%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:75%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0.6</span>
+                <span style="--p:25%">1.05</span>
+                <span style="--p:50%">1.5</span>
+                <span style="--p:75%">1.95</span>
+                <span style="--p:100%">2.4</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">lower medium (y&lt;0)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">t₀ =</span>
+            <span class="slider-value" id="t0Val">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="t0" class="dash-range" type="range" min="-2" max="2" step="0.01" value="0.00">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:25%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:75%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-2</span>
+                <span style="--p:25%">-1</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:75%">1</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">emission time</span>
+          </div>
+
+          <pre id="errBox"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Idea física</h2>
+            <p>
+              En óptica geométrica, el frente de onda \(\phi\) satisface la <strong>ecuación eikonal</strong>
+              \[
+                |\nabla \phi| = n(x,y),
+              \]
+              donde \(n\) es el índice de refracción (o, equivalentemente, una “lentitud”).
+              Los <strong>rayos</strong> son las curvas normales a los frentes de onda y también
+              extremizan el <strong>tiempo de viaje</strong> (principio de Fermat).
+            </p>
+
+            <h2>Dos medios y continuidad de fase</h2>
+            <p>
+              Aquí el medio 1 está arriba (\(y&gt;0\)) con \(n_1\), y el medio 2 abajo (\(y&lt;0\)) con \(n_2\).
+              El rayo sale de \(S=(0,1)\) y llega a \(T=(2,-1)\), cruzando la interfaz \(y=0\) en \(P=(x^\*,0)\).
+              La condición de <strong>continuidad de fase</strong> a lo largo de la interfaz implica que la
+              componente tangencial del vector de onda sea continua, lo que conduce a la ley de Snell.
+            </p>
+
+            <h2>Ley de Snell</h2>
+            <p style="text-align:center;">
+              \[
+                n_1 \sin\theta_1 = n_2 \sin\theta_2,
+              \]
+            </p>
+            <p>
+              donde \(\theta_1,\theta_2\) son los ángulos respecto a la normal a la interfaz.
+              En el applet, el punto \(x^\*\) se obtiene minimizando
+              \[
+                \tau(x)= n_1\,|S-(x,0)| + n_2\,|(x,0)-T|.
+              \]
+              El residuo mostrado debería ser cercano a cero (errores numéricos pequeños).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Physical idea</h2>
+            <p>
+              In geometrical optics the wave phase \(\phi\) satisfies the <strong>eikonal equation</strong>
+              \[
+                |\nabla \phi| = n(x,y),
+              \]
+              where \(n\) is the refractive index (equivalently, a “slowness”).
+              <strong>Rays</strong> are curves normal to wavefronts and also extremize the
+              <strong>travel time</strong> (Fermat’s principle).
+            </p>
+
+            <h2>Two media and phase continuity</h2>
+            <p>
+              Here medium 1 is above (\(y&gt;0\)) with \(n_1\), and medium 2 is below (\(y&lt;0\)) with \(n_2\).
+              A ray goes from \(S=(0,1)\) to \(T=(2,-1)\), crossing the interface \(y=0\) at \(P=(x^\*,0)\).
+              Continuity of the phase along the interface implies continuity of the tangential component
+              of the wavevector, which leads to Snell’s law.
+            </p>
+
+            <h2>Snell’s law</h2>
+            <p style="text-align:center;">
+              \[
+                n_1 \sin\theta_1 = n_2 \sin\theta_2.
+              \]
+            </p>
+            <p>
+              In the applet, the interface point \(x^\*\) is found by minimizing
+              \[
+                \tau(x)= n_1\,|S-(x,0)| + n_2\,|(x,0)-T|.
+              \]
+              The displayed residual should be close to zero (small numerical error).
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pyodide helper FIRST -->
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+
+  <!-- Mathlet logic SECOND -->
+  <script src="./eikonal_snell.js"></script>
+
+  <!-- Site JS (drawer, etc.) -->
+  <script src="../../../assets/app.js"></script>
+</body>
+</html>

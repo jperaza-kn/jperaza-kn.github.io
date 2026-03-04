@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rectangular Potential Barrier (Stationary)</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./schrodinger_barrier.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Rectangular Potential Barrier (1D Schrödinger)</h1>
+      <p style="text-align:center; font-size:1.2rem;">
+        <em>Stationary scattering with exponential decay inside the barrier when \(E &lt; V_0\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <!-- LEFT -->
+        <section class="card section sch-barrier">
+          <div id="plot"></div>
+
+          <!-- sliders (bottom, same style) -->
+          <div class="slider-row-dash">
+            <span class="slider-label">a =</span>
+            <span class="slider-value" id="aVal">1.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="a" class="dash-range" type="range" min="0.2" max="3.0" step="0.02" value="1.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0.2</span>
+                <span style="--p:50%">1.6</span>
+                <span style="--p:100%">3.0</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{barrier width}\)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">V₀ =</span>
+            <span class="slider-value" id="V0Val">2.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="V0" class="dash-range" type="range" min="0.1" max="6.0" step="0.05" value="2.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0.1</span>
+                <span style="--p:50%">3.05</span>
+                <span style="--p:100%">6.0</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{barrier height}\)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">ϕ =</span>
+            <span class="slider-value" id="phVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="phase" class="dash-range" type="range" min="0" max="6.283185307179586" step="0.02" value="0.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:50%">π</span>
+                <span style="--p:100%">2π</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{display phase shift}\)</span>
+          </div>
+
+          <div id="meta" style="margin-top:10px; color: var(--muted); font-size: 13px; text-align:center;"></div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Problema</h2>
+            <p>
+              Consideramos la ecuación de Schrödinger estacionaria en 1D
+              \[
+              \left[-\frac{\hbar^2}{2m}\frac{d^2}{dx^2}+V(x)\right]\psi(x)=E\,\psi(x),
+              \]
+              con una barrera rectangular
+              \[
+              V(x)=\begin{cases}
+              0, & x&lt;1,\\
+              V_0, & 1&lt;x&lt;1+a,\\
+              0, & x&gt;1+a.
+              \end{cases}
+              \]
+              Asumimos una onda incidente desde la izquierda.
+            </p>
+
+            <h3>Ondas en cada región</h3>
+            <p style="margin:0;">
+              Fuera de la barrera la solución es una superposición de ondas planas con
+              \(k_0=\sqrt{2mE/\hbar^2}\). En la región de la barrera aparece
+              \(k_1=\sqrt{2m(E-V_0)/\hbar^2}\).
+              Cuando \(E&lt;V_0\), \(k_1\) es imaginario y la onda en la barrera es
+              <strong>evanescente</strong>, con decaimiento \(\sim e^{-\kappa x}\),
+              \(\kappa=\sqrt{2m(V_0-E)/\hbar^2}\).
+            </p>
+
+            <p>
+              En este applet fijamos \(E=1\) (unidades \(\hbar=1,\;2m=1\)) y resolvemos los
+              coeficientes imponiendo continuidad de \(\psi\) y \(\psi'\) en los bordes.
+              La curva punteada muestra \(V(x)\) (escalada) y la curva sólida muestra \(|\psi|^2\).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Problem</h2>
+            <p>
+              We consider the 1D time-independent Schrödinger equation
+              \[
+              \left[-\frac{\hbar^2}{2m}\frac{d^2}{dx^2}+V(x)\right]\psi(x)=E\,\psi(x),
+              \]
+              with a rectangular barrier
+              \[
+              V(x)=\begin{cases}
+              0, & x&lt;1,\\
+              V_0, & 1&lt;x&lt;1+a,\\
+              0, & x&gt;1+a.
+              \end{cases}
+              \]
+              We assume a wave incident from the left.
+            </p>
+
+            <h3>Waves in each region</h3>
+            <p style="margin:0;">
+              Outside the barrier the solution is a superposition of plane waves with
+              \(k_0=\sqrt{2mE/\hbar^2}\). Inside the barrier we have
+              \(k_1=\sqrt{2m(E-V_0)/\hbar^2}\).
+              When \(E&lt;V_0\), \(k_1\) becomes imaginary and the wave in the barrier is
+              <strong>evanescent</strong>, decaying like \(e^{-\kappa x}\) with
+              \(\kappa=\sqrt{2m(V_0-E)/\hbar^2}\).
+            </p>
+
+            <p>
+              In this applet we fix \(E=1\) (units \(\hbar=1,\;2m=1\)) and solve the coefficients
+              by enforcing continuity of \(\psi\) and \(\psi'\) at the barrier edges.
+              The dotted curve shows \(V(x)\) (scaled) and the solid curve shows \(|\psi|^2\).
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./schrodinger_barrier.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Laplace Equation (2D)</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./laplace_2d.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Laplace Equation 2D</h1>
+      <p style="text-align:center; font-size:1.5rem;">
+        <em>\(\Delta u = 0 \ \text{on}\ [0,1]\times[0,1]\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <section class="card section laplace2d-mathlet">
+          <div id="plot3d"></div>
+          <div id="plot2d"></div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">a =</span>
+            <span class="slider-value" id="aVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="a" class="dash-range" type="range" min="-2" max="2" step="0.01" value="0.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{left edge slope}\)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">b =</span>
+            <span class="slider-value" id="bVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="b" class="dash-range" type="range" min="-2" max="2" step="0.01" value="0.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{left edge offset}\)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">c =</span>
+            <span class="slider-value" id="cVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="c" class="dash-range" type="range" min="-2" max="2" step="0.01" value="0.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{right edge slope}\)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">d =</span>
+            <span class="slider-value" id="dVal">0.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+              <input id="d" class="dash-range" type="range" min="-2" max="2" step="0.01" value="0.0">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">2</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{right edge offset}\)</span>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap;"></pre>
+        </section>
+
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Problema</h2>
+            <p>Resolvemos la ecuación de Laplace en el cuadrado unidad:</p>
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \Delta u = u_{xx}+u_{yy}=0,\qquad (x,y)\in(0,1)\times(0,1).
+              \]
+            </p>
+
+            <h3>Condiciones de contorno</h3>
+            <p style="text-align:center; margin: 10px 0 14px;">
+              \[
+              u(0,y)=y^2+a\,y+b,\qquad u(1,y)=y^2+c\,y+d.
+              \]
+            </p>
+            <p>
+              Para completar el contorno de forma continua en las esquinas, tomamos
+              \(u(x,0)\) y \(u(x,1)\) lineales en \(x\), uniendo los valores de las esquinas.
+            </p>
+
+            <h3>Idea con modos de Fourier</h3>
+            <p>
+              Se puede construir la solución como suma de extensiones armónicas que activan una sola arista.
+              Por ejemplo, si \(u(x,0)=f(x)\) y las otras aristas son cero:
+            </p>
+            <p style="text-align:center; margin: 10px 0 14px;">
+              \[
+              u(x,y)=\sum_{n=1}^\infty \hat f_n \frac{\sinh(n\pi(1-y))}{\sinh(n\pi)}\sin(n\pi x),
+              \quad
+              \hat f_n = 2\int_0^1 f(x)\sin(n\pi x)\,dx.
+              \]
+            </p>
+            <p>
+              Aquí usamos un método numérico (diferencias finitas + iteraciones rápidas) para obtener
+              una superficie suave en el navegador.
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Problem</h2>
+            <p>We solve Laplace’s equation on the unit square:</p>
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \Delta u = u_{xx}+u_{yy}=0,\qquad (x,y)\in(0,1)\times(0,1).
+              \]
+            </p>
+
+            <h3>Boundary data</h3>
+            <p style="text-align:center; margin: 10px 0 14px;">
+              \[
+              u(0,y)=y^2+a\,y+b,\qquad u(1,y)=y^2+c\,y+d.
+              \]
+            </p>
+            <p>
+              To keep the boundary continuous at the corners, we set \(u(x,0)\) and \(u(x,1)\) to be
+              linear in \(x\), interpolating the corner values.
+            </p>
+
+            <h3>Fourier-mode viewpoint</h3>
+            <p>
+              A classical approach is to build the solution as a sum of harmonic functions, each turning on
+              boundary data on a single side. For instance, if \(u(x,0)=f(x)\) and the other three sides are zero:
+            </p>
+            <p style="text-align:center; margin: 10px 0 14px;">
+              \[
+              u(x,y)=\sum_{n=1}^\infty \hat f_n \frac{\sinh(n\pi(1-y))}{\sinh(n\pi)}\sin(n\pi x),
+              \quad
+              \hat f_n = 2\int_0^1 f(x)\sin(n\pi x)\,dx.
+              \]
+            </p>
+            <p>
+              In this applet we compute the harmonic extension numerically (finite differences + fast iterations)
+              to produce a smooth surface directly in the browser.
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./laplace_2d.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

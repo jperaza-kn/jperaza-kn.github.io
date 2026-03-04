@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lorenz System (3D)</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./lorenz_3d.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Lorenz System (3D)</h1>
+
+      <p style="text-align:center; font-size:1.35rem; ">
+        <em>
+          \[
+          \dot x=\sigma(y-x),\quad \dot y=x(\rho-z)-y,\quad \dot z=xy-\beta z.
+          \]
+        </em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <section class="card section lorenz-mathlet">
+          <div id="plot3d"></div>
+          <div id="plotTime"></div>
+
+          <h3 style="margin-top:14px;">Parameters</h3>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">σ =</span>
+            <span class="slider-value" id="sigmaVal">10.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="sigma" class="dash-range" type="range" min="0" max="30" step="0.1" value="10">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:33.333%"></span>
+                <span class="dash-tick" style="--p:66.666%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:33.333%">10</span>
+                <span style="--p:66.666%  ">20</span>
+                <span style="--p:100%">30</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">Prandtl number</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">ρ =</span>
+            <span class="slider-value" id="rhoVal">28.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="rho" class="dash-range" type="range" min="0" max="60" step="0.1" value="28">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:33.333%"></span>
+                <span class="dash-tick" style="--p:66.666%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:33.333%">20</span>
+                <span style="--p:66.666%">40</span>
+                <span style="--p:100%">60</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">Rayleigh number</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">β =</span>
+            <span class="slider-value" id="betaVal">2.67</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="beta" class="dash-range" type="range" min="0.1" max="10" step="0.01" value="2.6667">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:33.333%"></span>
+                <span class="dash-tick" style="--p:66.666%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0.1</span>
+                <span style="--p:33.333%">3.4</span>
+                <span style="--p:66.666%">6.7</span>
+                <span style="--p:100%">10</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">geometry / dissipation</span>
+          </div>
+
+          <h3 style="margin-top:14px;">Initial conditions</h3>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">x₀ =</span>
+            <span class="slider-value" id="x0Val">1.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="x0" class="dash-range" type="range" min="-20" max="20" step="0.1" value="1">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-20</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">20</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">start value for x</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">y₀ =</span>
+            <span class="slider-value" id="y0Val">1.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="y0" class="dash-range" type="range" min="-30" max="30" step="0.1" value="1">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-30</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:100%">30</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">start value for y</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">z₀ =</span>
+            <span class="slider-value" id="z0Val">1.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="z0" class="dash-range" type="range" min="0" max="60" step="0.1" value="1">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0</span>
+                <span style="--p:50%">30</span>
+                <span style="--p:100%">60</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">start value for z</span>
+          </div>
+
+          <h3 style="margin-top:14px;">Integration</h3>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">T =</span>
+            <span class="slider-value" id="tmaxVal">40</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="tmax" class="dash-range" type="range" min="5" max="80" step="1" value="40">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">5</span>
+                <span style="--p:50%">42</span>
+                <span style="--p:100%">80</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">time window</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">dt =</span>
+            <span class="slider-value" id="dtVal">0.010</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="dt" class="dash-range" type="range" min="0.002" max="0.03" step="0.001" value="0.01">
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+              <div class="dash-tick-labels">
+                <span style="--p:0%">0.002</span>
+                <span style="--p:50%">0.016</span>
+                <span style="--p:100%">0.03</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">step size</span>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Descripción</h2>
+            <p>
+              El <strong>sistema de Lorenz</strong> es un modelo clásico de convección que puede exhibir caos para ciertos parámetros.
+              Está dado por:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \dot x=\sigma(y-x),\qquad
+              \dot y=x(\rho-z)-y,\qquad
+              \dot z=xy-\beta z.
+              \]
+            </p>
+
+            <p>
+              Los parámetros representan propiedades físicas:
+            </p>
+            <ul>
+              <li>\(\sigma\): <strong>número de Prandtl</strong>, cociente entre difusividad de momento y difusividad térmica.</li>
+              <li>\(\rho\): <strong>número de Rayleigh</strong>, parámetro de convección libre.</li>
+              <li>\(\beta\): se relaciona con la <strong>geometría</strong> / dimensiones de la capa de fluido (y disipación).</li>
+            </ul>
+
+            <p>
+              A la izquierda ves la trayectoria en el espacio de fases \((x,y,z)\) y la evolución temporal de \(x(t),y(t),z(t)\).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Description</h2>
+            <p>
+              The <strong>Lorenz system</strong> is a classic model of convection that can show chaotic dynamics for certain parameters:
+            </p>
+
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \dot x=\sigma(y-x),\qquad
+              \dot y=x(\rho-z)-y,\qquad
+              \dot z=xy-\beta z.
+              \]
+            </p>
+
+            <p>
+              The parameters correspond (in the Rayleigh–Bénard setting) to:
+            </p>
+            <ul>
+              <li>\(\sigma\): the <strong>Prandtl number</strong>, ratio between momentum and thermal diffusivities.</li>
+              <li>\(\rho\): the <strong>Rayleigh number</strong>, the free convection parameter.</li>
+              <li>\(\beta\): related to the <strong>geometry / physical dimensions</strong> of the fluid layer (and dissipation).</li>
+            </ul>
+
+            <p>
+              On the left you see the trajectory in phase space \((x,y,z)\) and the time series \(x(t),y(t),z(t)\).
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./lorenz_3d.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

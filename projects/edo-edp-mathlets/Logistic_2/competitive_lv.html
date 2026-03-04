@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Competitive Lotka–Volterra</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./competitive_lv.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Competitive Lotka–Volterra (2 species)</h1>
+      <p style="text-align:center; font-size:1.1rem;">
+        <em>\(\dot x = r_1 x\left(1-\frac{x+a_{12}y}{K_1}\right),\quad
+          \dot y = r_2 y\left(1-\frac{y+a_{21}x}{K_2}\right)\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <section class="card section clv-mathlet">
+          <div id="plot_phase"></div>
+          <div id="plot_time"></div>
+
+          <!-- Sliders -->
+          <div class="slider-row-dash">
+            <span class="slider-label">r₁ =</span><span class="slider-value" id="r1Val">1.00</span>
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="r1" class="dash-range" type="range" min="0.1" max="3" step="0.01" value="1.0">
+              <div class="dash-ticks"><span class="dash-tick" style="--p:0%"></span><span class="dash-tick" style="--p:50%"></span><span class="dash-tick" style="--p:100%"></span></div>
+              <div class="dash-tick-labels"><span style="--p:0%">0.1</span><span style="--p:50%">1.55</span><span style="--p:100%">3</span></div>
+            </div>
+            <span class="slider-caption">growth rate (species 1)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">K₁ =</span><span class="slider-value" id="K1Val">10.0</span>
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="K1" class="dash-range" type="range" min="1" max="30" step="0.1" value="10">
+              <div class="dash-ticks"><span class="dash-tick" style="--p:0%"></span><span class="dash-tick" style="--p:50%"></span><span class="dash-tick" style="--p:100%"></span></div>
+              <div class="dash-tick-labels"><span style="--p:0%">1</span><span style="--p:50%">15.5</span><span style="--p:100%">30</span></div>
+            </div>
+            <span class="slider-caption">carrying capacity (species 1)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">a₁₂ =</span><span class="slider-value" id="a12Val">0.50</span>
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="a12" class="dash-range" type="range" min="0" max="2" step="0.01" value="0.5">
+              <div class="dash-ticks"><span class="dash-tick" style="--p:0%"></span><span class="dash-tick" style="--p:50%"></span><span class="dash-tick" style="--p:100%"></span></div>
+              <div class="dash-tick-labels"><span style="--p:0%">0</span><span style="--p:50%">1</span><span style="--p:100%">2</span></div>
+            </div>
+            <span class="slider-caption">impact of species 2 on 1</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">r₂ =</span><span class="slider-value" id="r2Val">1.00</span>
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="r2" class="dash-range" type="range" min="0.1" max="3" step="0.01" value="1.0">
+              <div class="dash-ticks"><span class="dash-tick" style="--p:0%"></span><span class="dash-tick" style="--p:50%"></span><span class="dash-tick" style="--p:100%"></span></div>
+              <div class="dash-tick-labels"><span style="--p:0%">0.1</span><span style="--p:50%">1.55</span><span style="--p:100%">3</span></div>
+            </div>
+            <span class="slider-caption">growth rate (species 2)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">K₂ =</span><span class="slider-value" id="K2Val">12.0</span>
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="K2" class="dash-range" type="range" min="1" max="30" step="0.1" value="12">
+              <div class="dash-ticks"><span class="dash-tick" style="--p:0%"></span><span class="dash-tick" style="--p:50%"></span><span class="dash-tick" style="--p:100%"></span></div>
+              <div class="dash-tick-labels"><span style="--p:0%">1</span><span style="--p:50%">15.5</span><span style="--p:100%">30</span></div>
+            </div>
+            <span class="slider-caption">carrying capacity (species 2)</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">a₂₁ =</span><span class="slider-value" id="a21Val">0.60</span>
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="a21" class="dash-range" type="range" min="0" max="2" step="0.01" value="0.6">
+              <div class="dash-ticks"><span class="dash-tick" style="--p:0%"></span><span class="dash-tick" style="--p:50%"></span><span class="dash-tick" style="--p:100%"></span></div>
+              <div class="dash-tick-labels"><span style="--p:0%">0</span><span style="--p:50%">1</span><span style="--p:100%">2</span></div>
+            </div>
+            <span class="slider-caption">impact of species 1 on 2</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">x₀ =</span><span class="slider-value" id="x0Val">2.00</span>
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="x0" class="dash-range" type="range" min="0.1" max="25" step="0.1" value="2.0">
+              <div class="dash-ticks"><span class="dash-tick" style="--p:0%"></span><span class="dash-tick" style="--p:50%"></span><span class="dash-tick" style="--p:100%"></span></div>
+              <div class="dash-tick-labels"><span style="--p:0%">0.1</span><span style="--p:50%">12.55</span><span style="--p:100%">25</span></div>
+            </div>
+            <span class="slider-caption">initial species 1</span>
+          </div>
+
+          <div class="slider-row-dash">
+            <span class="slider-label">y₀ =</span><span class="slider-value" id="y0Val">1.50</span>
+            <div class="slider-wrap">
+              <div class="rail"></div><div class="rail-fill"></div>
+              <input id="y0" class="dash-range" type="range" min="0.1" max="25" step="0.1" value="1.5">
+              <div class="dash-ticks"><span class="dash-tick" style="--p:0%"></span><span class="dash-tick" style="--p:50%"></span><span class="dash-tick" style="--p:100%"></span></div>
+              <div class="dash-tick-labels"><span style="--p:0%">0.1</span><span style="--p:50%">12.55</span><span style="--p:100%">25</span></div>
+            </div>
+            <span class="slider-caption">initial species 2</span>
+          </div>
+
+          <pre id="errBox"></pre>
+        </section>
+
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Modelo</h2>
+            <p>
+              El <strong>Lotka–Volterra competitivo</strong> es una generalización en 2D de la ecuación logística:
+              cada especie crece de forma logística, pero la otra especie reduce la capacidad efectiva.
+            </p>
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \dot x = r_1 x\left(1-\frac{x+a_{12}y}{K_1}\right),\qquad
+              \dot y = r_2 y\left(1-\frac{y+a_{21}x}{K_2}\right).
+              \]
+            </p>
+            <ul>
+              <li>\(r_1,r_2\): tasas de crecimiento intrínsecas.</li>
+              <li>\(K_1,K_2\): capacidades de carga.</li>
+              <li>\(a_{12}\): impacto de la especie 2 en la 1.</li>
+              <li>\(a_{21}\): impacto de la especie 1 en la 2.</li>
+            </ul>
+            <p>
+              A la izquierda: (arriba) el retrato de fase \((x,y)\) y (abajo) \(x(t)\), \(y(t)\)
+              desde \((x_0,y_0)\).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Model</h2>
+            <p>
+              The <strong>competitive Lotka–Volterra</strong> system is a 2D generalization of the logistic equation:
+              each species grows logistically, while the other species reduces the effective carrying capacity.
+            </p>
+            <p style="text-align:center; font-style: italic; margin: 10px 0 14px;">
+              \[
+              \dot x = r_1 x\left(1-\frac{x+a_{12}y}{K_1}\right),\qquad
+              \dot y = r_2 y\left(1-\frac{y+a_{21}x}{K_2}\right).
+              \]
+            </p>
+            <ul>
+              <li>\(r_1,r_2\): intrinsic growth rates.</li>
+              <li>\(K_1,K_2\): carrying capacities.</li>
+              <li>\(a_{12}\): effect of species 2 on species 1.</li>
+              <li>\(a_{21}\): effect of species 1 on species 2.</li>
+            </ul>
+            <p>
+              On the left: (top) the phase portrait \((x,y)\) and (bottom) \(x(t)\), \(y(t)\)
+              starting from \((x_0,y_0)\).
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./competitive_lv.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+</html>

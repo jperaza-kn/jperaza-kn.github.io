@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bernoulli Equation — Isoclines</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./bernoulli_isoclines_manual.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Bernoulli Equation — Isoclines & Slope Field</h1>
+
+      <p style="text-align:center; font-size:1.35rem; margin-top:10px;">
+        \[
+          y' + A(x)\,y = B(x)\,y^n
+        \]
+      </p>
+
+      <p style="text-align:center; font-size:1.05rem; opacity:.9; margin-top:10px;">
+        Default: \(A(x)=0\), \(B(x)=1\), \(n=2\)  &nbsp;→&nbsp;  \(y'=y^2\).
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <section class="card section isoclines-mathlet bernoulli-mathlet">
+          <div id="errBox" class="errbox" style="display:none;"></div>
+          <div id="plot"></div>
+
+          <!-- Isocline value slider -->
+          <div class="slider-row-dash">
+            <span class="slider-label">m =</span>
+            <span class="slider-value" id="mVal">1.00</span>
+
+            <div class="slider-wrap">
+              <div class="rail"></div>
+              <div class="rail-fill"></div>
+
+              <input id="m" class="dash-range" type="range" min="-4" max="4" step="0.05" value="1.0">
+
+              <div class="dash-ticks">
+                <span class="dash-tick" style="--p:0%"></span>
+                <span class="dash-tick" style="--p:25%"></span>
+                <span class="dash-tick" style="--p:50%"></span>
+                <span class="dash-tick" style="--p:75%"></span>
+                <span class="dash-tick" style="--p:100%"></span>
+              </div>
+
+              <div class="dash-tick-labels">
+                <span style="--p:0%">-4</span>
+                <span style="--p:25%">-2</span>
+                <span style="--p:50%">0</span>
+                <span style="--p:75%">2</span>
+                <span style="--p:100%">4</span>
+              </div>
+            </div>
+
+            <span class="slider-caption">\(\text{isocline }y'=m\)</span>
+          </div>
+
+          <!-- Equation inputs -->
+          <div class="input-grid">
+            <label class="inp">
+              <span>A(x)</span>
+              <input id="Aexpr" type="text" value="0" spellcheck="false" />
+            </label>
+            <label class="inp">
+              <span>B(x)</span>
+              <input id="Bexpr" type="text" value="1" spellcheck="false" />
+            </label>
+            <label class="inp">
+              <span>n</span>
+              <input id="nValInput" type="number" value="2" step="0.1" />
+            </label>
+
+            <button id="applyBtn" class="solbtn" title="Apply A,B,n (resets solutions)">Apply</button>
+          </div>
+
+          <!-- Manual initial condition -->
+          <div class="ic-row">
+            <div class="ic-title">Initial condition:</div>
+            <label class="ic-inp">
+              <span>x₀</span>
+              <input id="x0Input" type="number" value="0" step="0.1" />
+            </label>
+            <label class="ic-inp">
+              <span>y₀</span>
+              <input id="y0Input" type="number" value="1" step="0.1" />
+            </label>
+            <button id="graphBtn" class="solbtn">Graph</button>
+          </div>
+
+          <div id="solutions" class="solutions"></div>
+
+          <p style="margin-top:10px; opacity:.85; font-size:0.95rem;">
+            Tip: clicking on contours can be unreliable in Plotly; use the manual initial condition above for guaranteed plotting.
+          </p>
+        </section>
+
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Idea</h2>
+            <p>
+              La ecuación de Bernoulli
+              \[
+                y' + A(x)\,y = B(x)\,y^n
+              \]
+              se linealiza con el cambio \(v=y^{1-n}\) (para \(n\neq 1\)). En efecto:
+              \[
+                v' + (1-n)A(x)\,v = (1-n)B(x),
+              \]
+              que es una ecuación lineal de primer orden.
+            </p>
+
+            <h2>Cómo se resuelve</h2>
+            <p>
+              Si \(n\neq 1\), usamos el cambio \(v=y^{1-n}\). Entonces:
+              \[
+                v' + (1-n)A(x)\,v = (1-n)B(x),
+              \]
+              que es lineal. Se resuelve con factor integrante y luego se recupera
+              \(y=v^{1/(1-n)}\).
+            </p>
+
+            <h2>Uso</h2>
+            <p>
+              Escribe \(A(x)\) y \(B(x)\) (sintaxis tipo LaTeX/Python), define \(n\), y pulsa <strong>Apply</strong>.
+              Haz click en el plano para dibujar soluciones numéricas.
+            </p>
+          </div>
+
+            <p>
+              En el plano \((x,y)\), las <strong>isoclinas</strong> son las curvas donde \(y'=m\), es decir,
+              \(B(x)y^n - A(x)y = m\). El applet muestra el campo de pendientes y la isoclina naranja para el valor \(m\).
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Idea</h2>
+            <p>
+              The Bernoulli equation
+              \[
+                y' + A(x)\,y = B(x)\,y^n
+              \]
+              becomes linear under the substitution \(v=y^{1-n}\) (for \(n\neq 1\)). One gets:
+              \[
+                v' + (1-n)A(x)\,v = (1-n)B(x),
+              \]
+              which is a first-order linear ODE.
+            </p>
+
+            <h2>How to solve</h2> 
+            <p>
+              If \(n\neq 1\), we use the substitution \(v=y^{1-n}\). Then:
+              \[
+                v' + (1-n)A(x)\,v = (1-n)B(x),
+              \]
+              which is linear. We solve it with an integrating factor and then recover
+              \(y=v^{1/(1-n)}\).
+            </p>
+            <p>
+              In the \((x,y)\) plane, <strong>isoclines</strong> are curves where \(y'=m\), i.e.
+              \(B(x)y^n - A(x)y = m\). The applet shows the slope field and the orange isocline for the chosen \(m\).
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./bernoulli_isoclines_manual.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>

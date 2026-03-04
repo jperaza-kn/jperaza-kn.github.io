@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Van der Pol Oscillator</title>
+
+  <link rel="stylesheet" href="../../../assets/styles.css" />
+  <link rel="stylesheet" href="./vanderpol.css" />
+
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <button class="iconbtn" id="menuBtn" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">☰</button>
+    <div class="topbar-title">PROJECTS</div>
+    <div class="topbar-spacer"></div>
+  </header>
+
+  <div class="overlay" id="overlay" hidden></div>
+
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <nav class="nav">
+      <a href="../../../index.html">Home</a>
+      <a href="https://drive.google.com/file/d/1pGUdGQOV3DdVWxvQxYz7IXDzZ-XrVPio/view" target="_blank"
+        rel="noopener noreferrer">CV</a>
+      <a href="../../../publications.html">Publications</a>
+      <a href="../../../awards.html">Awards</a>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../teaching.html">Teaching</a>
+      <a href="../../../students.html">Students</a>
+      <a href="../../../resources.html">Resources</a>
+      <a href="../../../events.html">Events</a>
+      <a href="../../../contact.html">Contact</a>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <section class="card section">
+      <h1>Van der Pol Oscillator</h1>
+      <p style="text-align:center; font-size:1.5rem;">
+        <em>\(x'' - \mu(1-x^2)x' + x = 0\)</em>
+      </p>
+    </section>
+
+    <div class="grid-page">
+      <div class="mathlet-wrap">
+
+        <section class="card section vdp-mathlet">
+          <div id="plotPhase"></div>
+          <div id="plotTime"></div>
+
+          <div class="sliders-block">
+            <div class="slider-row-dash">
+              <span class="slider-label">μ =</span>
+              <span class="slider-value" id="muVal">1.00</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+
+                <input id="mu" class="dash-range" type="range" min="0" max="8" step="0.05" value="1.0">
+
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:25%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:75%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">0</span>
+                  <span style="--p:25%">2</span>
+                  <span style="--p:50%">4</span>
+                  <span style="--p:75%">6</span>
+                  <span style="--p:100%">8</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">\(\text{nonlinearity}\)</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">x₀ =</span>
+              <span class="slider-value" id="x0Val">1.00</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+
+                <input id="x0" class="dash-range" type="range" min="-3" max="3" step="0.05" value="1.0">
+
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-3</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">3</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">\(\text{initial }x(0)\)</span>
+            </div>
+
+            <div class="slider-row-dash">
+              <span class="slider-label">y₀ =</span>
+              <span class="slider-value" id="y0Val">0.00</span>
+
+              <div class="slider-wrap">
+                <div class="rail"></div>
+                <div class="rail-fill"></div>
+
+                <input id="y0" class="dash-range" type="range" min="-3" max="3" step="0.05" value="0.0">
+
+                <div class="dash-ticks">
+                  <span class="dash-tick" style="--p:0%"></span>
+                  <span class="dash-tick" style="--p:50%"></span>
+                  <span class="dash-tick" style="--p:100%"></span>
+                </div>
+
+                <div class="dash-tick-labels">
+                  <span style="--p:0%">-3</span>
+                  <span style="--p:50%">0</span>
+                  <span style="--p:100%">3</span>
+                </div>
+              </div>
+
+              <span class="slider-caption">\(\text{initial }y(0)=x'(0)\)</span>
+            </div>
+          </div>
+
+          <pre id="errBox" style="display:none; margin-top:12px; white-space:pre-wrap; color:#ffb4b4;"></pre>
+        </section>
+
+        <section class="card section">
+          <div style="text-align:right; margin-bottom:10px;">
+            <button id="langToggle" class="solbtn">English</button>
+          </div>
+
+          <div id="text-es">
+            <h2>Problema</h2>
+            <p>El oscilador de <strong>Van der Pol</strong> se define por la ecuación diferencial no lineal:</p>
+            <p style="text-align:center; font-style:italic; margin:10px 0 14px;">
+              \[
+              x'' - \mu(1-x^2)x' + x = 0.
+              \]
+            </p>
+            <p>
+              El parámetro \(\mu\) controla la <strong>no-linealidad</strong> y la presencia de un
+              <strong>ciclo límite</strong> (oscilación auto-sostenida).
+            </p>
+
+            <h3>Sistema de primer orden</h3>
+            <p style="margin:0;">
+              Introduciendo \(y=x'\), la ecuación de segundo orden se escribe como:
+              \[
+              \dot x = y,\qquad
+              \dot y = \mu(1-x^2)y - x.
+              \]
+              En el panel izquierdo mostramos (arriba) el retrato de fase \((x,y)\) y (abajo) la evolución \(x(t)\).
+              Las trayectorias en <span style="color:#8fe88f;">verde claro</span> son referencias,
+              y la curva en <span style="color:#1e7f1e;">verde oscuro</span> corresponde a \((x_0,y_0)\).
+            </p>
+
+            <h3>Hamiltoniano del sistema</h3>
+            <p>
+              El oscilador de Van der Pol admite una formulación hamiltoniana con un Hamiltoniano independiente del tiempo, al introducir
+              la variable auxiliar \(y\) como antes, y la ecuación para \(y\) puede escribirse como
+              \[
+              \ddot y + \mu(1-x^2)\dot y + y = 0.
+              \]
+              Entonces, el Hamiltoniano es
+              \[
+              H(x,y,p_x,p_y)=p_x p_y + x y - \mu (1-x^2) y p_y,
+              \]
+              para los momentos \(p_x = \dot y + \mu (1-x^2)y \) y \(p_y = \dot x\) conjugados a \(x\) e \(y\) respectivamente.
+            </p>
+          </div>
+
+          <div id="text-en" style="display:none;">
+            <h2>Problem</h2>
+            <p>The <strong>Van der Pol</strong> oscillator is defined by the nonlinear ODE:</p>
+            <p style="text-align:center; font-style:italic; margin:10px 0 14px;">
+              \[
+              x'' - \mu(1-x^2)x' + x = 0.
+              \]
+            </p>
+            <p>
+              The parameter \(\mu\) controls the <strong>nonlinearity</strong> and the emergence of a
+              <strong>limit cycle</strong> (self-sustained oscillation).
+            </p>
+
+            <h3>First-order system</h3>
+            <p style="margin:0;">
+              Setting \(y=x'\), the second-order equation becomes:
+              \[
+              \dot x = y,\qquad
+              \dot y = \mu(1-x^2)y - x.
+              \]
+              On the left we show (top) the phase portrait \((x,y)\) and (bottom) the time evolution \(x(t)\).
+              The <span style="color:#8fe88f;">light-green</span> curves are reference trajectories,
+              and the <span style="color:#1e7f1e;">dark-green</span> curve uses the selected \((x_0,y_0)\).
+            </p>
+
+            <h3>Hamiltonian of the system</h3>
+
+            <p>
+              The Van der Pol oscillator admits a Hamiltonian formulation with a time-independent Hamiltonian, by introducing
+              the auxiliary variable \(y\) as above, and the equation for \(y\) can be written as
+              \[
+              \ddot y + \mu(1-x^2)\dot y + y = 0.
+              \]
+              Then, the Hamiltonian is
+              \[
+              H(x,y,p_x,p_y)=p_x p_y + x y - \mu (1-x^2) y p_y,
+              \]
+              for momenta \(p_x = \dot y + \mu (1-x^2)y \) and \(p_y = \dot x\) conjugate to \(x\) and \(y\) respectively. 
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../assets/mathlets/pyodide-base.js"></script>
+  <script src="./vanderpol.js"></script>
+  <script src="../../../assets/app.js"></script>
+</body>
+
+</html>
